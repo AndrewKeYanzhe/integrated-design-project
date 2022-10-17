@@ -23,6 +23,8 @@ void setup() {
   Serial.begin(9600);          
   Serial.println("Line follower test");
 
+  AFMS.begin();
+
   if (!AFMS.begin()) {         // create with the default frequency 1.6KHz
     Serial.println("Could not find Motor Shield. Check wiring.");
     while (1);
@@ -50,14 +52,14 @@ void loop() {
     Serial.println("left sensor BLACK");
   }
   else{
-    Serial.println("left sensor WHITE")
+    Serial.println("left sensor WHITE");
   }
 
   if (right_sensor == HIGH){
     Serial.println("right sensor BLACK");
   }
   else{
-    Serial.println("right sensor WHITE")
+    Serial.println("right sensor WHITE");
   }
 
   if (left_sensor && right_sensor){
