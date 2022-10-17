@@ -3,15 +3,13 @@
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
-// Select which 'port' 
+// Select which 'port' - currently left = M1 and right = M2
 Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(2);
-Adafruit_DCMotor *Motor3 = AFMS.getMotor(3);
-Adafruit_DCMotor *Motor4 = AFMS.getMotor(4);
+
+// Declaring variables
 
 int default_speed = 192; //75% of max speed
-
-
 
 bool SensorOne;
 bool SensorTwo;
@@ -54,6 +52,7 @@ void setup() {
   // put your setup code here, to run once:
 
   Serial.begin(9600);
+  AFMS.begin();
 
 
   if (!AFMS.begin()) {         // create with the default frequency 1.6KHz
