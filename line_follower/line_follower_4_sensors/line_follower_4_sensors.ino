@@ -124,12 +124,18 @@ void stop_motors(){
     set_motor_speed('L',0);
     set_motor_speed('R',0);
 }
-void turn_angle(){
+void turn_back(){
   //loops
   read_sensors();
   Serial.println("turn angle");
 
   set_motor_speed('R',default_speed);
+  right_motor->run(FORWARD);
+  right_motor->run(RELEASE); 
+  
+  set_motor_speed('L',default_speed);
+  left_motor->run(BACKWARD);
+  left_motor->run(RELEASE); 
 
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.println("found line");
