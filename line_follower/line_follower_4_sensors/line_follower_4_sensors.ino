@@ -101,12 +101,12 @@ void loop() {
   }
 
   else if (left_white && !right_white){
-    Serial.println("turn left");
+    Serial.println("tilt left");
     set_motor_speed('L',default_speed*0.9);
     set_motor_speed('R',default_speed);
   }
   else if (!left_white && right_white){
-    Serial.println("turn right");
+    Serial.println("tilt right");
     set_motor_speed('L',default_speed);
     set_motor_speed('R',default_speed*0.9);
   }
