@@ -13,6 +13,8 @@ Adafruit_DCMotor *right_motor = AFMS.getMotor(2);
 
 int default_speed = 192; //75% of max speed
 
+int loop_delay = 1;
+
 bool sensor_1;
 bool sensor_2;
 bool sensor_3;
@@ -124,12 +126,12 @@ void loop() {
   }
 
 
-  delay(1);
+  delay(loop_delay);
 
 }
 
 void follow_line(){
-    // put your main code here, to run repeatedly:
+  //loops
 
   read_sensors();
 
@@ -157,7 +159,7 @@ void follow_line(){
   }
   
 
-  delay(1);
+  delay(loop_delay);
   follow_line();
 }
 
@@ -177,6 +179,7 @@ void check_state(){
 }
 
 void turn_right(){
+  //loops
   read_sensors();
   Serial.println("turn right");
 
@@ -191,5 +194,8 @@ void turn_right(){
     on_line = true;
     follow_line();
   }
+
+  delay(loop_delay);
+  turn_right();
 
 }
