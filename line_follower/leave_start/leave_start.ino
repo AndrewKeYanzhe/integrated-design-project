@@ -20,10 +20,10 @@ bool sensor_2;
 bool sensor_3;
 bool sensor_4;
 
-bool far_left_white = false;
-bool left_white = false;
-bool right_white = false;
-bool far_right_white = false;
+bool far_left_black = false;
+bool left_black = false;
+bool right_black = false;
+bool far_right_black = false;
 
 bool on_line = false;
 
@@ -79,12 +79,10 @@ void setup() {
 
   set_motor_speed('L',default_speed);
   left_motor->run(FORWARD);
-  // turn on motor
   left_motor->run(RELEASE);  
 
   set_motor_speed('R',default_speed);
   right_motor->run(FORWARD);
-  // turn on motor
   right_motor->run(RELEASE); 
 
   Serial.println("going forward");
@@ -107,10 +105,10 @@ void read_sensors(){
   }
   
   
-  far_left_white = sensor_1 == LOW;
-  left_white = sensor_2 == LOW;
-  right_white = sensor_3 == LOW;
-  far_right_white = sensor_4 == LOW;
+  far_left_black = sensor_1 == HIGH;
+  left_black = sensor_2 == HIGH;
+  right_black = sensor_3 == HIGH;
+  far_right_black = sensor_4 == HIGH;
 }
 
 void loop() {
@@ -118,41 +116,42 @@ void loop() {
 
   read_sensors();
   
-
-  if (left_white && right_white && !far_left_white && !far_right_white){
+  if (left_black && right_black && far_left_black && far_right_black){
     Serial.println("found line");
     on_line = true;
     follow_line();
   }
 
-
   delay(loop_delay);
-
 }
 
 void follow_line(){
   //loops
+  left_motor->run(FORWARD);
+  left_motor->run(RELEASE); 
+  right_motor->run(FORWARD);
+  right_motor->run(RELEASE); 
 
   read_sensors();
 
-  if (left_white && right_white && !far_left_white && !far_right_white){
+  if (left_black && right_black && far_left_black && far_right_black){
     Serial.println("continue forward");
     set_motor_speed('L',default_speed);
     set_motor_speed('R',default_speed);
   }
 
-  else if (left_white && right_white && far_left_white && far_right_white){
+  else if (!far_left_black && !far_right_black){
     Serial.println("crossed white line");
     white_line_crossed = white_line_crossed + 1;
     check_state();
   }
 
-  else if (left_white && !right_white){
+  else if (!left_black && right_black){
     Serial.println("nudge left");
     set_motor_speed('L',default_speed*0.9);
     set_motor_speed('R',default_speed);
   }
-  else if (!left_white && right_white){
+  else if (left_black && !right_black){
     Serial.println("nudge right");
     set_motor_speed('L',default_speed);
     set_motor_speed('R',default_speed*0.9);
@@ -186,8 +185,15 @@ void turn_right(){
   stop_motors();
 
   set_motor_speed('L',default_speed);
+  left_motor->run(FORWARD);
+  left_motor->run(RELEASE); 
+  /*Test factor for right wheel speed so that line sensors will line up with line after 90 degree right turn. If right wheel is stationary it will overshoot the line*/
+  set_motor_speed('R',default_speed*0.2);
+  right_motor->run(BACKWARD);
+  right_motor->run(RELEASE);  
 
-  if (left_white && right_white && !far_left_white && !far_right_white){
+
+  if (left_black && right_black && far_left_black && far_right_black){
     Serial.println("found line");
     stop_motors();
 
