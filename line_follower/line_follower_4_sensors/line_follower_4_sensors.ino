@@ -66,12 +66,10 @@ void setup() {
 
   set_motor_speed('L',default_speed);
   left_motor->run(FORWARD);
-  // turn on motor
   left_motor->run(RELEASE);  
 
   set_motor_speed('R',default_speed);
   right_motor->run(FORWARD);
-  // turn on motor
   right_motor->run(RELEASE);  
 
 
@@ -80,6 +78,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+    set_motor_speed('L',default_speed);
+    left_motor->run(FORWARD);
+    left_motor->run(RELEASE);  
+    
+    set_motor_speed('R',default_speed);
+    right_motor->run(FORWARD);
+    right_motor->run(RELEASE);  
 
   sensor_2 = digitalRead(0);
   if (sensor_2 == HIGH) {
@@ -91,26 +96,45 @@ void loop() {
   
   sensor_3 = digitalRead(1);
 
-  bool left_white = sensor_2 == LOW;
-  bool right_white = sensor_3 == LOW;
+  bool far_left_black = sensor_1 == HIGH;
+  bool left_black = sensor_2 == HIGH;
+  bool right_black = sensor_3 == HIGH;
+  bool far_right_black = sensor_4 == HIGH;
 
-  if (left_white && right_white){
+  if (left_black && right_black){
     Serial.println("continue forward");
-    set_motor_speed('L',default_speed);
-    set_motor_speed('R',default_speed);
   }
 
-  else if (left_white && !right_white){
+  else if (!left_black && right_black){
     Serial.println("nudge left");
     set_motor_speed('L',default_speed*0.9);
-    set_motor_speed('R',default_speed);
   }
-  else if (!left_white && right_white){
+  else if (left_black && !right_black){
     Serial.println("nudge right");
-    set_motor_speed('L',default_speed);
     set_motor_speed('R',default_speed*0.9);
   }
-
+  if(!far_left_black && !far_right_black){
+    Serial.println("white cross reached")
+    stop_motors()
+    //CV then used to determine location of block and robot turns a certain angle
   delay(1);
 
 }
+void stop_motors(){
+    set_motor_speed('L',0);
+    set_motor_speed('R',0);
+}
+void turn_angle(){
+  //loops
+  read_sensors();
+  Serial.println("turn angle");
+
+  set_motor_speed('R',default_speed);
+
+  if (left_white && right_white && !far_left_white && !far_right_white){
+    Serial.println("found line");
+    stop_motors();
+
+    on_line = true;
+    follow_line();
+  }
