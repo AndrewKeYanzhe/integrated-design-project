@@ -66,11 +66,11 @@ void setup() {
 
   set_motor_speed('L',default_speed);
   left_motor->run(FORWARD);
-  left_motor->run(RELEASE);  
+  // left_motor->run(RELEASE);  
 
   set_motor_speed('R',default_speed);
   right_motor->run(FORWARD);
-  right_motor->run(RELEASE);  
+  // right_motor->run(RELEASE);  
 
 
 
@@ -80,11 +80,11 @@ void loop() {
   // put your main code here, to run repeatedly:
     set_motor_speed('L',default_speed);
     left_motor->run(FORWARD);
-    left_motor->run(RELEASE);  
+    // left_motor->run(RELEASE);  
     
     set_motor_speed('R',default_speed);
     right_motor->run(FORWARD);
-    right_motor->run(RELEASE);  
+    // right_motor->run(RELEASE);  
 
   sensor_2 = digitalRead(0);
   if (sensor_2 == HIGH) {
@@ -131,11 +131,11 @@ void turn_back(){
 
   set_motor_speed('R',default_speed);
   right_motor->run(FORWARD);
-  right_motor->run(RELEASE); 
+  // right_motor->run(RELEASE); 
   
   set_motor_speed('L',default_speed);
   left_motor->run(BACKWARD);
-  left_motor->run(RELEASE); 
+  // left_motor->run(RELEASE); 
 
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.println("found line");
