@@ -30,22 +30,31 @@ bool on_line = false;
 int white_line_crossed = 0;
 
 int left_motorSpeed = 0;
+char left_motorDirection = NULL;
 int right_motorSpeed = 0;
+char right_motorDirection = NULL;
 
-void set_motor_speed(char motor_label,int new_speed) {
+
+void set_motor_speed(char motor_label, char new_direction, int new_speed) {
   //read old speed
   int old_speed = NULL;
+  char old_direction = NULL;
+
   switch(motor_label){
     case 'L':
       old_speed = left_motorSpeed;
+      old_direction = left_motorDirection;
+
       break;
     case 'R':
       old_speed = right_motorSpeed;
+      old_direction = right_motorDirection
+
       break;
   }
 
   //set new speed
-  if (new_speed==old_speed){
+  if (new_speed==old_speed && new_direction==old_direction){
     return;
   }
   else {
@@ -54,11 +63,30 @@ void set_motor_speed(char motor_label,int new_speed) {
     case 'L':
       left_motor->setSpeed(new_speed);
       left_motorSpeed = new_speed;
+
+      switch(new_direction){
+        case 'F':
+          left_motor->run(FORWARD);
+          left_motorDirection = new_direction;
+        case 'B':
+          left_motor->run(BACKWARDS);
+          left_motorDirection = new_direction;
+      }      
       break;
     case 'R':
       right_motor->setSpeed(new_speed);
       right_motorSpeed = new_speed;
       break;
+
+
+      switch(new_direction){
+        case 'F':
+          right_motor->run(FORWARD);
+          right_motorDirection = new_direction;
+        case 'B':
+          right_motor->run(BACKWARDS);
+          right_motorDirection = new_direction;
+      }      
     }
   }
 }
@@ -77,13 +105,13 @@ void setup() {
   }
   Serial.println("Motor Shield found.");
 
-  set_motor_speed('L',default_speed);
-  left_motor->run(FORWARD);
+  set_motor_speed('L','F',default_speed);
+  // left_motor->run(FORWARD);
   // turn on motor
   left_motor->run(RELEASE);  
 
-  set_motor_speed('R',default_speed);
-  right_motor->run(FORWARD);
+  set_motor_speed('R','F',default_speed);
+  // right_motor->run(FORWARD);
   // turn on motor
   right_motor->run(RELEASE); 
 
@@ -137,8 +165,8 @@ void follow_line(){
 
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.println("continue forward");
-    set_motor_speed('L',default_speed);
-    set_motor_speed('R',default_speed);
+    set_motor_speed('L','F',default_speed);
+    set_motor_speed('R','F',default_speed);
   }
 
   else if (left_white && right_white && far_left_white && far_right_white){
@@ -149,13 +177,13 @@ void follow_line(){
 
   else if (left_white && !right_white){
     Serial.println("nudge left");
-    set_motor_speed('L',default_speed*0.9);
-    set_motor_speed('R',default_speed);
+    set_motor_speed('L','F',default_speed*0.9);
+    set_motor_speed('R','F',default_speed);
   }
   else if (!left_white && right_white){
     Serial.println("nudge right");
-    set_motor_speed('L',default_speed);
-    set_motor_speed('R',default_speed*0.9);
+    set_motor_speed('L','F',default_speed);
+    set_motor_speed('R','F',default_speed*0.9);
   }
   
 
@@ -164,8 +192,8 @@ void follow_line(){
 }
 
 void stop_motors(){
-    set_motor_speed('L',0);
-    set_motor_speed('R',0);
+    set_motor_speed('L','F',0);
+    set_motor_speed('R','F',0);
 }
 
 void check_state(){
@@ -185,7 +213,7 @@ void turn_right(){
 
   stop_motors();
 
-  set_motor_speed('L',default_speed);
+  set_motor_speed('L','F',default_speed);
 
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.println("found line");
