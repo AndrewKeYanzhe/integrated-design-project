@@ -140,7 +140,7 @@ void read_sensors(){
   far_right_white = sensor_4 == LOW;
 
   unsigned long timeElapsed = millis() - startTime;
-
+  Serial.println(" ");
   Serial.print("sensing white: ");
   Serial.print(far_left_white);
   Serial.print(left_white);
@@ -151,7 +151,7 @@ void read_sensors(){
   Serial.print(right_motorSpeed);
   Serial.print("    time elapsed: ");
   Serial.print(timeElapsed/1000);
-  Serial.println(" ");
+  
 
 }
 
@@ -178,24 +178,24 @@ void follow_line(){
   read_sensors();
 
   if (left_white && right_white && !far_left_white && !far_right_white){
-    Serial.println("continue forward");
+    Serial.print("    continue forward");
     set_motor_speed('L','F',default_speed);
     set_motor_speed('R','F',default_speed);
   }
 
   else if (left_white && right_white && far_left_white && far_right_white){
-    Serial.println("crossed white line");
+    Serial.print("    crossed white line");
     white_line_crossed = white_line_crossed + 1;
     
   }
 
   else if (left_white && !right_white){
-    Serial.println("nudge left");
+    Serial.print("    nudge left");
     set_motor_speed('L','F',default_speed*0.9);
     set_motor_speed('R','F',default_speed);
   }
   else if (!left_white && right_white){
-    Serial.println("nudge right");
+    Serial.print("    nudge right");
     set_motor_speed('L','F',default_speed);
     set_motor_speed('R','F',default_speed*0.9);
   }
