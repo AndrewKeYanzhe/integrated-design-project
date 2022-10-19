@@ -13,7 +13,7 @@ Adafruit_DCMotor *right_motor = AFMS.getMotor(2);
 
 int default_speed = 192; //75% of max speed
 
-int loop_delay = 1;
+int loop_delay = 500;
 
 bool sensor_1;
 bool sensor_2;
@@ -127,12 +127,32 @@ void read_sensors(){
   sensor_3 = digitalRead(2);
   sensor_4 = digitalRead(3);
 
-  // if (sensor_2 == HIGH) {
-  //   Serial.println("sensor 1 BLACK");
-  // }
-  // else{
-  //   Serial.println("sensor 1 WHITE");
-  // }
+  // Serial.println("begin going forward");
+
+  if (sensor_1 == HIGH) {
+    Serial.println("sensor 1 BLACK");
+  }
+  else{
+    Serial.println("sensor 1 WHITE");
+  }
+  if (sensor_2 == HIGH) {
+    Serial.println("sensor 2 BLACK");
+  }
+  else{
+    Serial.println("sensor 2 WHITE");
+  }
+  if (sensor_3 == HIGH) {
+    Serial.println("sensor 3 BLACK");
+  }
+  else{
+    Serial.println("sensor 3 WHITE");
+  }
+  if (sensor_4 == HIGH) {
+    Serial.println("sensor 4 BLACK");
+  }
+  else{
+    Serial.println("sensor 4 WHITE");
+  }
   
   
   far_left_white = sensor_1 == LOW;
