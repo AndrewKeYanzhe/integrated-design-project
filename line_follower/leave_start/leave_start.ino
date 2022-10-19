@@ -48,7 +48,7 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
       break;
     case 'R':
       old_speed = right_motorSpeed;
-      old_direction = right_motorDirection
+      old_direction = right_motorDirection;
 
       break;
   }
@@ -69,7 +69,7 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
           left_motor->run(FORWARD);
           left_motorDirection = new_direction;
         case 'B':
-          left_motor->run(BACKWARDS);
+          left_motor->run(BACKWARD);
           left_motorDirection = new_direction;
       }      
       break;
@@ -84,7 +84,7 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
           right_motor->run(FORWARD);
           right_motorDirection = new_direction;
         case 'B':
-          right_motor->run(BACKWARDS);
+          right_motor->run(BACKWARD);
           right_motorDirection = new_direction;
       }      
     }
