@@ -1,6 +1,6 @@
 // leave initial box and turn right onto white line
 
-//TODO: add timer and printing of movement history
+//TODO: add printing of movement history
 
 #include <Adafruit_MotorShield.h>
 
@@ -35,6 +35,7 @@ char left_motorDirection = NULL;
 int right_motorSpeed = 0;
 char right_motorDirection = NULL;
 
+unsigned long startTime = NULL;
 
 void set_motor_speed(char motor_label, char new_direction, int new_speed) {
   //read old speed
@@ -117,6 +118,7 @@ void setup() {
 
 
   Serial.println("begin going forward");
+  startTime = millis();
 
 
 
@@ -134,14 +136,18 @@ void read_sensors(){
   right_white = sensor_3 == LOW;
   far_right_white = sensor_4 == LOW;
 
+  unsigned long timeElapsed = millis() - startTime;
+
   Serial.print("sensing white: ");
   Serial.print(far_left_white);
   Serial.print(left_white);
   Serial.print(right_white);
   Serial.print(far_right_white);
-  Serial.print(" motor speeds: ");
+  Serial.print("    motor speeds: ");
   Serial.print(left_motorSpeed);
   Serial.print(right_motorSpeed);
+  Serial.print("    time elapsed: ");
+  Serial.print(timeElapsed/1000);
   Serial.println(" ");
 
 }
