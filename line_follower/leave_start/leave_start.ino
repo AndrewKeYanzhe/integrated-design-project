@@ -9,10 +9,10 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 // Select which 'port' - currently left = M1 and right = M2
 Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
-Adafruit_DCMotor *right_motor = AFMS.getMotor(2);
+Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
-int default_speed = 64; 
+int default_speed = 255; //at 64, only one motor runs. at 128, motors only run when not touching ground. 192 is not powerful enough to go in a straight line
 
 int loop_delay = 500;
 
@@ -76,14 +76,16 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
       }      
       break;
     case 'R':
+      Serial.println("setting right speed");
       right_motor->setSpeed(new_speed);
       right_motorSpeed = new_speed;
-      break;
+      
 
 
       switch(new_direction){
         case 'F':
           right_motor->run(FORWARD);
+          Serial.println("running right");
           right_motorDirection = new_direction;
         case 'B':
           right_motor->run(BACKWARD);
@@ -118,6 +120,7 @@ void setup() {
 
 
   Serial.println("begin going forward");
+  // delay(999999);
   startTime = millis();
 
 
