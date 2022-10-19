@@ -1,5 +1,7 @@
 // leave initial box and turn right onto white line
 
+//TODO: add timer and printing of movement history
+
 #include <Adafruit_MotorShield.h>
 
 // Create the motor shield object with the default I2C address
@@ -10,8 +12,7 @@ Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(2);
 
 // Declaring variables
-
-int default_speed = 192; //75% of max speed
+int default_speed = 64; 
 
 int loop_delay = 500;
 
@@ -133,11 +134,14 @@ void read_sensors(){
   right_white = sensor_3 == LOW;
   far_right_white = sensor_4 == LOW;
 
-  Serial.print("sensing white");
+  Serial.print("sensing white: ");
   Serial.print(far_left_white);
   Serial.print(left_white);
   Serial.print(right_white);
   Serial.print(far_right_white);
+  Serial.print(" motor speeds: ");
+  Serial.print(left_motorSpeed);
+  Serial.print(right_motorSpeed);
   Serial.println(" ");
 
 }
@@ -201,10 +205,12 @@ void stop_motors(){
 
 void check_state(){
   Serial.println("checking state");
-  if (white_line_crossed == 1){
-    stop_motors();
-    turn_right();
-  }
+  // if (white_line_crossed == 1){
+  //   stop_motors();
+  //   turn_right();
+  // }
+
+  follow_line();
   
 
 }
