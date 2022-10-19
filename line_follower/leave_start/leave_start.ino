@@ -126,39 +126,20 @@ void read_sensors(){
   sensor_2 = digitalRead(1);
   sensor_3 = digitalRead(2);
   sensor_4 = digitalRead(3);
-
-  // Serial.println("begin going forward");
-
-  if (sensor_1 == HIGH) {
-    Serial.println("sensor 1 BLACK");
-  }
-  else{
-    Serial.println("sensor 1 WHITE");
-  }
-  if (sensor_2 == HIGH) {
-    Serial.println("sensor 2 BLACK");
-  }
-  else{
-    Serial.println("sensor 2 WHITE");
-  }
-  if (sensor_3 == HIGH) {
-    Serial.println("sensor 3 BLACK");
-  }
-  else{
-    Serial.println("sensor 3 WHITE");
-  }
-  if (sensor_4 == HIGH) {
-    Serial.println("sensor 4 BLACK");
-  }
-  else{
-    Serial.println("sensor 4 WHITE");
-  }
-  
+ 
   
   far_left_white = sensor_1 == LOW;
   left_white = sensor_2 == LOW;
   right_white = sensor_3 == LOW;
   far_right_white = sensor_4 == LOW;
+
+  Serial.print("sensing white");
+  Serial.print(far_left_white);
+  Serial.print(left_white);
+  Serial.print(right_white);
+  Serial.print(far_right_white);
+  Serial.println(" ");
+
 }
 
 void loop() {
