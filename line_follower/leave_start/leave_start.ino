@@ -172,7 +172,7 @@ void follow_line(){
   else if (left_white && right_white && far_left_white && far_right_white){
     Serial.println("crossed white line");
     white_line_crossed = white_line_crossed + 1;
-    check_state();
+    
   }
 
   else if (left_white && !right_white){
@@ -185,6 +185,8 @@ void follow_line(){
     set_motor_speed('L','F',default_speed);
     set_motor_speed('R','F',default_speed*0.9);
   }
+
+  check_state();
   
 
   delay(loop_delay);
@@ -201,8 +203,8 @@ void check_state(){
   if (white_line_crossed == 1){
     stop_motors();
     turn_right();
-
   }
+  
 
 }
 
