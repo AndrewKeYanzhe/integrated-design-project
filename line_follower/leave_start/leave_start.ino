@@ -108,12 +108,12 @@ void setup() {
   set_motor_speed('L','F',default_speed);
   // left_motor->run(FORWARD);
   // turn on motor
-  left_motor->run(RELEASE);  
+
 
   set_motor_speed('R','F',default_speed);
   // right_motor->run(FORWARD);
   // turn on motor
-  right_motor->run(RELEASE); 
+
 
   Serial.println("going forward");
 
