@@ -12,7 +12,7 @@ Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
-int default_speed = 255; //at 64, only one motor runs. at 128, motors only run when not touching ground. 192 is not powerful enough to go on flat ground
+int default_speed = 0; //TODO //at 64, only one motor runs. at 128, motors only run when not touching ground. 192 is not powerful enough to go on flat ground
 
 int loop_delay = 500;
 
@@ -213,7 +213,7 @@ void stop_motors(){
 }
 
 void check_state(){
-  Serial.println("checking state");
+  // Serial.println("checking state");
   // if (white_line_crossed == 1){
   //   stop_motors();
   //   turn_right();
