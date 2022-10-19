@@ -115,7 +115,7 @@ void setup() {
   // turn on motor
 
 
-  Serial.println("going forward");
+  Serial.println("begin going forward");
 
 
 
@@ -127,12 +127,12 @@ void read_sensors(){
   sensor_3 = digitalRead(2);
   sensor_4 = digitalRead(3);
 
-  if (sensor_2 == HIGH) {
-    Serial.println("sensor 1 BLACK");
-  }
-  else{
-    Serial.println("sensor 1 WHITE");
-  }
+  // if (sensor_2 == HIGH) {
+  //   Serial.println("sensor 1 BLACK");
+  // }
+  // else{
+  //   Serial.println("sensor 1 WHITE");
+  // }
   
   
   far_left_white = sensor_1 == LOW;
