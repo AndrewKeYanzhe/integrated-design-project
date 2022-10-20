@@ -12,9 +12,9 @@ Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
-int default_speed = 0; //TODO //at 64, only one motor runs. at 128, motors only run when not touching ground. 192 is not powerful enough to go on flat ground
+int default_speed = 0; //TODO //at 64, only one motor runs. at 128, motors only run when not touching ground. 192 is not powerful enough to go on flat ground. 210 is a decent speed
 
-int loop_delay = 500;
+int loop_delay = 1;
 
 bool sensor_1;
 bool sensor_2;
