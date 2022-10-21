@@ -12,7 +12,7 @@ Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
-int default_speed = 0; //TODO //at 64, only one motor runs. at 128, motors only run when not touching ground. 192 is not powerful enough to go on flat ground. 210 is a decent speed
+int default_speed = 255; //192 is not powerful enough to go on flat ground. 210 is a decent speed. 255 + full battery is needed to make turns with one wheel (255,0)
 
 int loop_delay = 1;
 
@@ -28,7 +28,8 @@ bool far_right_white = false;
 
 bool on_line = false;
 
-int white_line_crossed = 0;
+int current_state = 0;
+// int right_turns = 0;
 
 int left_motorSpeed = 0;
 char left_motorDirection = NULL;
@@ -161,14 +162,17 @@ void loop() {
   read_sensors();
   
 
-  if (left_white && right_white && !far_left_white && !far_right_white){
+  if (left_white || right_white){
     Serial.println("found line");
     on_line = true;
+    delay(100);
     follow_line();
   }
 
+  delay(1);
 
-  delay(loop_delay);
+
+  
 
 }
 
@@ -183,21 +187,31 @@ void follow_line(){
     set_motor_speed('R','F',default_speed);
   }
 
-  else if (left_white && right_white && far_left_white && far_right_white){
+  else if (far_left_white && far_right_white){
     Serial.print("    crossed white line");
-    white_line_crossed = white_line_crossed + 1;
+    current_state = current_state + 1;
     
   }
 
   else if (left_white && !right_white){
-    Serial.print("    nudge left");
-    set_motor_speed('L','F',default_speed*0.3);
-    set_motor_speed('R','F',255);
+    Serial.print("    slight leftward correction");
+    set_motor_speed('L','F',default_speed*0.8);
+    set_motor_speed('R','F',default_speed);
   }
   else if (!left_white && right_white){
-    Serial.print("    nudge right");
+    Serial.print("    slight rightward correction");
+    set_motor_speed('L','F',default_speed);
+    set_motor_speed('R','F',default_speed*0.8);
+  }
+  else if (far_left_white && !left_white && !right_white && !far_right_white){
+    Serial.print("    leftward correction");
+    set_motor_speed('L','F',default_speed*0);
+    set_motor_speed('R','F',255);
+  }
+  else if (!far_left_white && !left_white && !right_white && far_right_white){
+    Serial.print("    rightward correction");
     set_motor_speed('L','F',255);
-    set_motor_speed('R','F',default_speed*0.3);
+    set_motor_speed('R','F',default_speed*0);
   }
 
   check_state();
@@ -213,11 +227,11 @@ void stop_motors(){
 }
 
 void check_state(){
-  // Serial.println("checking state");
-  // if (white_line_crossed == 1){
-  //   stop_motors();
-  //   turn_right();
-  // }
+  Serial.println("checking state");
+  if (current_state == 1){
+    // stop_motors();
+    turn_right();
+  }
 
   follow_line();
   
@@ -227,18 +241,27 @@ void check_state(){
 void turn_right(){
   //loops
   read_sensors();
-  Serial.println("turn right");
+  set_motor_speed('L','F',255);
+  set_motor_speed('R','F',default_speed*0.3);
 
-  stop_motors();
+  // stop_motors();
 
-  set_motor_speed('L','F',default_speed);
+  // set_motor_speed('L','F',default_speed);
 
-  if (left_white && right_white && !far_left_white && !far_right_white){
+
+  if (left_white || right_white){
     Serial.println("found line");
-    stop_motors();
+    current_state = current_state+1;
+
+    set_motor_speed('L','F',default_speed*0.8);
+    set_motor_speed('R','F',default_speed);
+    delay(500);
+    // stop_motors();
 
     on_line = true;
+    // right_turns = right_turns + 1;
     follow_line();
+    return;
   }
 
   delay(loop_delay);
