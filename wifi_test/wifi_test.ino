@@ -1,7 +1,7 @@
 #include <WiFiNINA.h>
 
-char ssid[] = ; LAPTOP-U318N0T7       // your network SSID (name)
-char pass[] = ; f1ZO1[04   // your network password (use for WPA, or use as key for WEP)
+char ssid[] = "Andrew's iPhone 14 Pro Max";       // your network SSID (name)
+char pass[] = "12345678";   // your network password (use for WPA, or use as key for WEP)
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
 void setup() {
