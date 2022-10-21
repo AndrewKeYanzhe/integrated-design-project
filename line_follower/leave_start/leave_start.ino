@@ -68,10 +68,10 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
 
       switch(new_direction){
         case 'F':
-          left_motor->run(FORWARD);
+          left_motor->run(BACKWARD);
           left_motorDirection = new_direction;
         case 'B':
-          left_motor->run(BACKWARD);
+          left_motor->run(FORWARD);
           left_motorDirection = new_direction;
       }      
       break;
@@ -84,11 +84,11 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
 
       switch(new_direction){
         case 'F':
-          right_motor->run(FORWARD);
+          right_motor->run(BACKWARD);
           Serial.println("running right");
           right_motorDirection = new_direction;
         case 'B':
-          right_motor->run(BACKWARD);
+          right_motor->run(FORWARD);
           right_motorDirection = new_direction;
       }      
     }
@@ -110,12 +110,12 @@ void setup() {
   Serial.println("Motor Shield found.");
 
   set_motor_speed('L','F',default_speed);
-  // left_motor->run(FORWARD);
+
   // turn on motor
 
 
   set_motor_speed('R','F',default_speed);
-  // right_motor->run(FORWARD);
+
   // turn on motor
 
 
@@ -191,13 +191,13 @@ void follow_line(){
 
   else if (left_white && !right_white){
     Serial.print("    nudge left");
-    set_motor_speed('L','F',default_speed*0.9);
-    set_motor_speed('R','F',default_speed);
+    set_motor_speed('L','F',default_speed*0.3);
+    set_motor_speed('R','F',255);
   }
   else if (!left_white && right_white){
     Serial.print("    nudge right");
-    set_motor_speed('L','F',default_speed);
-    set_motor_speed('R','F',default_speed*0.9);
+    set_motor_speed('L','F',255);
+    set_motor_speed('R','F',default_speed*0.3);
   }
 
   check_state();
