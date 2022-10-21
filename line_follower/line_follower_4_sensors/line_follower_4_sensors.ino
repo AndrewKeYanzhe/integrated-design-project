@@ -5,7 +5,7 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 // Select which 'port' - currently left = M1 and right = M2
 Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
-Adafruit_DCMotor *right_motor = AFMS.getMotor(2);
+Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
 
@@ -91,24 +91,48 @@ void loop() {
   
   sensor_3 = digitalRead(1);
 
+  bool far_left_white = sensor_1 == LOW;
   bool left_white = sensor_2 == LOW;
   bool right_white = sensor_3 == LOW;
+  bool far_right_white = sensor_4 == LOW;
 
   if (left_white && right_white){
     Serial.println("continue forward");
     set_motor_speed('L',default_speed);
+    left_motor->run(FORWARD);
     set_motor_speed('R',default_speed);
+    right_motor->run(FORWARD); 
+
   }
 
   else if (left_white && !right_white){
     Serial.println("nudge left");
     set_motor_speed('L',default_speed*0.9);
+    left_un(FORWARD); 
     set_motor_speed('R',default_speed);
+    right_motor->run(FORWARD);
+
   }
   else if (!left_white && right_white){
     Serial.println("nudge right");
     set_motor_speed('L',default_speed);
+    left_motor->run(FORWARD);
     set_motor_speed('R',default_speed*0.9);
+    right_motor->run(FORWARD);
+
+  else if (!far_left_white && !left_white && !right_white && far_right_white){
+    Serial.println("nudge significantly right");
+    set_motor_speed('L',default_speed);
+    left_motor->run(FORWARD);
+    set_motor_speed('R',default_speed*0.5);
+    right_motor->run(FORWARD);
+  }
+  else if (far_left_white && !left_white && !right_white && !far_right_white){
+    Serial.println("nudge significantly left");
+    set_motor_speed('L',default_speed*0.5);
+    left_motor->run(FORWARD);
+    set_motor_speed('R',default_speed);
+    right_motor->run(FORWARD);
   }
 
   delay(1);
