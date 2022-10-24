@@ -48,13 +48,15 @@ void setup() {
 
 void loop() {
 
-  if (distance < contact_distance){
+  ultrasound_dist = read_ultrasound();
+
+  if (ultrasound_dist < contact_distance){
     // lift up
   left_servo.write(-1);
   right_servo.write(1);
   }
 
-  else if (distance > contact_distance){
+  else if (ultrasound_dist > contact_distance){
     Serial.println("block picked up OR ultrasound_dist is far");
   }
 
@@ -62,7 +64,7 @@ void loop() {
 
 }
 
-void read_ultrasound(){
+int read_ultrasound(){
   // Clear the trigPin by setting it LOW:
   digitalWrite(trigPin, LOW);
   delayMicroseconds(5);
@@ -78,7 +80,7 @@ void read_ultrasound(){
 
   // Print the ultrasound_dist on the Serial Monitor (Ctrl+Shift+M):
   Serial.print("Distance = ");
-  Serial.print(distance);
+  Serial.print(ultrasound_dist);
   Serial.println(" cm");
 
   return ultrasound_dist;  
