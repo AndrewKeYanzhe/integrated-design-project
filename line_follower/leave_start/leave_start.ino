@@ -38,6 +38,7 @@ bool far_right_white = false;
 bool on_line = false;
 
 int current_state = 0;
+String current_state_v2 = "initial box";
 // int right_turns = 0;
 
 int left_motorSpeed = 0;
@@ -179,6 +180,7 @@ void loop() {
   if (left_white || right_white){
     Serial.println("found line");
     on_line = true;
+    current_state_v2 = "line following";
     delay(100);
     follow_line();
   }
@@ -204,6 +206,8 @@ void follow_line(){
   else if (far_left_white && far_right_white){
     Serial.print("    crossed white line");
     current_state = current_state + 1;
+    // turn_right(); //TODO: uncomment when using current_state_V2
+    
     
   }
 
