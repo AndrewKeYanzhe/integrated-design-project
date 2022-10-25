@@ -7,7 +7,6 @@
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
-
 //--variables to set--------------------------
 
 
@@ -155,16 +154,18 @@ void read_sensors(){
 
   unsigned long timeElapsed = millis() - startTime;
   Serial.println(" ");
-  Serial.print("sensing white: ");
+  Serial.print("white: ");
   Serial.print(far_left_white);
   Serial.print(left_white);
   Serial.print(right_white);
   Serial.print(far_right_white);
-  Serial.print("    motor speeds: ");
+  Serial.print("    motors: ");
   Serial.print(left_motorSpeed);
   Serial.print(right_motorSpeed);
-  Serial.print("    time elapsed: ");
+  Serial.print("    time: ");
   Serial.print(timeElapsed/1000);
+  Serial.print("    state: ");
+  Serial.print(current_state_v2);  
   
 
 }
@@ -240,7 +241,7 @@ void stop_motors(){
 }
 
 void check_state(){
-  Serial.println("checking state");
+  // Serial.println("checking state");
   if (current_state == 1){
     // stop_motors();
     turn_right();
