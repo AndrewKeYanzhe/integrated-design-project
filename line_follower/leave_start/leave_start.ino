@@ -16,7 +16,7 @@ Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
-int default_speed = 255; //192 is not powerful enough to go on flat ground. 210 is a decent speed. 255 + full battery is needed to make turns with one wheel (255,0)
+int default_speed = 0; //192 is not powerful enough to go on flat ground. 210 is a decent speed. 255 + full battery is needed to make turns with one wheel (255,0)
 int loop_delay = 1;
 
 
@@ -75,10 +75,10 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
 
       switch(new_direction){
         case 'F':
-          left_motor->run(BACKWARD);
+          left_motor->run(FORWARD);
           left_motorDirection = new_direction;
         case 'B':
-          left_motor->run(FORWARD);
+          left_motor->run(BACKWARD);
           left_motorDirection = new_direction;
       }      
       break;
@@ -91,11 +91,11 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
 
       switch(new_direction){
         case 'F':
-          right_motor->run(BACKWARD);
+          right_motor->run(FORWARD);
           Serial.println("running right");
           right_motorDirection = new_direction;
         case 'B':
-          right_motor->run(FORWARD);
+          right_motor->run(BACKWARD);
           right_motorDirection = new_direction;
       }      
     }
