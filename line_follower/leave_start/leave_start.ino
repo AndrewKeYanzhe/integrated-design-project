@@ -7,14 +7,20 @@
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
+
+//--variables to set--------------------------
+
+
 // Select which 'port' - currently left = M1 and right = M2
 Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
 int default_speed = 255; //192 is not powerful enough to go on flat ground. 210 is a decent speed. 255 + full battery is needed to make turns with one wheel (255,0)
-
 int loop_delay = 1;
+
+
+//--variables to set--------------------------
 
 bool sensor_1;
 bool sensor_2;
