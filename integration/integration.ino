@@ -219,7 +219,8 @@ void follow_line(){
   }
   else if (far_left_white && far_right_white){
     Serial.print("    crossed white line");
-    current_state = current_state + 1;
+    current_state = ++current_state;
+    check_state();
     // turn_right(); //TODO: uncomment when using current_state_str
   }
   else if (left_white && !right_white){
@@ -244,15 +245,18 @@ void follow_line(){
   }
   // Transition from state 5 to 6.
    else if (far_left_white && left_white){
-   ++current_state;
+   current_state = ++current_state;
+   check_state();
   }
   if (!left_white && !right_white && !far_left_white && !far_right_white){
-   ++current_state;
+   current_state = ++current_state;
+   check_state();
   }
   //MAY NEED TO BE CORRECTED TO AVOID SETTING OFF WHEN GOING OVER RAMP. Transition from state 2 to 3.
   //ultrasound_dist = read_ultrasound();
   if (ultrasound_dist < contact_distance){
-    ++current_state;
+    current_state = ++current_state;
+    check_state();
   }
   delay(loop_delay);
 }
@@ -274,14 +278,12 @@ void turn_right(){
 
   if (left_white || right_white){
     Serial.println("found line");
-    current_state = current_state+1;
-
     set_motor_speed('L','F',default_speed*0.8);
     set_motor_speed('R','F',default_speed);
+    current_state = ++current_state;
+    check_state();
     delay(500);
     return;
-
-  ++current_state;
   }
 }
 // Function for final left turn
@@ -298,11 +300,10 @@ void turn_left(){
     Serial.println("found line");
     set_motor_speed('L','F',default_speed);
     set_motor_speed('R','F',default_speed);
-
+    current_state = ++current_state;
+    check_state();
     delay(10);
     return;
-  
-  ++current_state;
   }
 }
 void turn_back(){
@@ -317,7 +318,8 @@ void turn_back(){
 
     delay(10);
     return;
-    ++current_state;
+    current_state = ++current_state;
+    check_state();
   }
 }
 
@@ -352,7 +354,8 @@ void block_pick_up(){
     left_servo.write(-1);
     right_servo.write(1);
   }
-  ++current_state;
+  current_state = ++current_state;
+  check_state();
 }
 
 void block_put_down(){
