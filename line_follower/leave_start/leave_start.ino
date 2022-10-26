@@ -142,10 +142,10 @@ void setup() {
 }
 
 void read_sensors(){
-  sensor_1 = digitalRead(0);
-  sensor_2 = digitalRead(1);
-  sensor_3 = digitalRead(3);
-  sensor_4 = digitalRead(2);
+  sensor_1 = digitalRead(3);
+  sensor_2 = digitalRead(2);
+  sensor_3 = digitalRead(1);
+  sensor_4 = digitalRead(0);
  
   
   far_left_white = sensor_1 == LOW;
