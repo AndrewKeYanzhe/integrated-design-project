@@ -1,6 +1,5 @@
 // leave initial box and turn right onto white line
 
-//TODO: add printing of movement history
 
 #include <Adafruit_MotorShield.h>
 
@@ -16,7 +15,7 @@ Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
 Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
 
 // Declaring variables
-int default_speed = 255; //192 is not powerful enough to go on flat ground. 210 is a decent speed. 255 + full battery is needed to make turns with one wheel (255,0)
+int default_speed = 255; 
 int loop_delay = 1;
 
 
