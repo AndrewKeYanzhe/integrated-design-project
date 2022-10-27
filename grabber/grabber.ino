@@ -4,8 +4,8 @@
 #include <Servo.h>
 #include <Adafruit_MotorShield.h>
 
-#define trigPin 2
-#define echoPin 3
+#define trigPin 6
+#define echoPin 5
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
