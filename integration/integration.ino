@@ -41,6 +41,9 @@ String state_8 = "in box and dropping block";
 String current_state_str = state_1;
 int current_state = 0;
 
+int left_turn_counter = 0;
+
+int ultrasound_counter = 0;
 
 int left_motorSpeed = 255;
 char left_motorDirection = NULL;
@@ -59,6 +62,18 @@ Servo right_servo;
 
 //variables to change - ULTRASOUND
 int contact_distance = 10;
+
+
+// these constants won’t change - MAGNET:
+const int analogPin = A1; // the pin that the potentiometer is attached to
+// }; // an array of pin numbers to which LEDs are attached
+
+bool magnetic = true;
+
+//variables to change - MAGNET
+int magnetism_threshold = 100;
+int green_pin = 9;
+int red_pin = 8;
 
 void set_motor_speed(char motor_label, char new_direction, int new_speed) {
   if (enable_motors == 0){
@@ -145,13 +160,17 @@ void setup() {
   // Attach a servo to pin #10 - this is Servo 1 on the motor shield 
   left_servo.attach(10);
   right_servo.attach(11); //CHANGE 
+
+  //LEDs for Hall sensor test
+  pinMode(green_pin, OUTPUT);
+  pinMode(red_pin, OUTPUT);
 }
 
 void read_sensors(){
-  sensor_1 = digitalRead(3);
+  sensor_1 = digitalRead(2);
   sensor_2 = digitalRead(1);
-  sensor_3 = digitalRead(2);
-  sensor_4 = digitalRead(0);
+  sensor_3 = digitalRead(0);
+  sensor_4 = digitalRead(3);
  
   far_left_white = sensor_1 == LOW;
   left_white = sensor_2 == LOW;
@@ -189,6 +208,7 @@ void check_state(){
   }
   if (current_state == 3){
     stop_motors();
+    //magnetic_test();
     block_pick_up();
   }
   if (current_state == 4){
@@ -243,10 +263,9 @@ void follow_line(){
     set_motor_speed('L','F',255);
     set_motor_speed('R','F',default_speed*0);
   }
-  // Transition from state 5 to 6.
-   else if (far_left_white && left_white){
-   current_state = ++current_state;
-   check_state();
+  else if (far_left_white && left_white && right_white && far_right_white){
+    current_state = ++current_state;
+    check_state();
   }
   if (!left_white && !right_white && !far_left_white && !far_right_white){
    current_state = ++current_state;
@@ -258,7 +277,19 @@ void follow_line(){
     current_state = ++current_state;
     check_state();
   }
+  // Transition from state 5 to 6 (left turn)
+  if (far_left_white && left_white && (magnetic = true)){
+    current_state = ++current_state;
+    check_state();
+  }
+  else if (far_left_white && left_white && (magnetic = false) && (left_turn_counter < 2)){
+    left_turn_counter = ++left_turn_counter;
+  }
+  else if (far_left_white && left_white && (magnetic = false)){
+    current_state = ++current_state;
+    check_state();
   delay(loop_delay);
+  }
 }
 
 void stop_motors(){
@@ -290,7 +321,7 @@ void turn_right(){
 void turn_left(){
   //loops
   read_sensors();
-  set_motor_speed('L','F', default_speed*0.3);
+  set_motor_speed('L','R', default_speed*0.2);
   set_motor_speed('R','F', 255);
 
   // stop_motors();
@@ -306,6 +337,7 @@ void turn_left(){
     return;
   }
 }
+
 void turn_back(){
   //loops
   read_sensors();
@@ -361,11 +393,28 @@ void block_pick_up(){
 void block_put_down(){
   ultrasound_dist = read_ultrasound();
   if (ultrasound_dist > contact_distance){
-  Serial.println("block picked up OR ultrasound_dist is far");
+    Serial.println("block picked up OR ultrasound_dist is far");
   }
   else {
     left_servo.write(1);
     right_servo.write(-1);
   current_state = 0;
+  }
+}
+
+void magnetic_test(){
+  // read the potentiometer:
+  int sensorReading = analogRead(analogPin);
+  // print the sensor reading
+  Serial.println(sensorReading);
+
+  if (sensorReading >= magnetism_threshold){
+    digitalWrite(green_pin, LOW);
+    digitalWrite(red_pin, HIGH);
+    magnetic = true;
+  }
+  else if (sensorReading < magnetism_threshold){
+    digitalWrite(red_pin, LOW);
+    digitalWrite(green_pin, HIGH);
   }
 }
