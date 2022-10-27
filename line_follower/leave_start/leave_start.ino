@@ -89,7 +89,6 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
       }      
       break;
     case 'R':
-      Serial.println("setting right speed");
       right_motor->setSpeed(new_speed);
       right_motorSpeed = new_speed;
       
@@ -98,7 +97,6 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
       switch(new_direction){
         case 'F':
           right_motor->run(FORWARD);
-          Serial.println("running right");
           right_motorDirection = new_direction;
         case 'B':
           right_motor->run(BACKWARD);
@@ -222,7 +220,9 @@ void follow_line(){
   else if (far_left_white && far_right_white){
     Serial.print("    crossed white line");
     current_state = current_state + 1;
-    // turn_right(); //TODO: uncomment when using current_state_V2
+    delay(100);
+    // check_state();
+    turn_right(); //TODO: uncomment when using current_state_V2
     
     
   }
@@ -248,7 +248,7 @@ void follow_line(){
     set_motor_speed('R','F',default_speed*0);
   }
 
-  check_state();
+  // check_state();
   
 
   delay(loop_delay);
@@ -267,12 +267,14 @@ void check_state(){
     turn_right();
   }
 
-  follow_line();
+  // follow_line();
   
 
 }
 
 void turn_right(){
+  current_state_v2 = "turning right";
+
   //loops
   read_sensors();
   set_motor_speed('L','F',255);
@@ -285,6 +287,7 @@ void turn_right(){
 
   if (left_white || right_white){
     Serial.println("found line");
+    current_state_v2 = "line following";
     current_state = current_state+1;
 
     set_motor_speed('L','F',default_speed*0.8);
