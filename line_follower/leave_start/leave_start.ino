@@ -27,7 +27,7 @@ bool sensor_2;
 bool sensor_3;
 bool sensor_4;
 
-bool enable_motors = 0;
+bool enable_motors = 1;
 
 bool far_left_white = false;
 bool left_white = false;
@@ -144,10 +144,10 @@ void(* resetFunc) (void) = 0;//declare reset function at address 0
 
 
 void read_sensors(){
-  sensor_1 = digitalRead(2);
-  sensor_2 = digitalRead(1);
-  sensor_3 = digitalRead(0);
-  sensor_4 = digitalRead(3);
+  sensor_1 = !(digitalRead(0));
+  sensor_2 = !(digitalRead(1));
+  sensor_3 = !(digitalRead(2));
+  sensor_4 = !(digitalRead(3));
 
   if (digitalRead(13) == HIGH){
     resetFunc();
