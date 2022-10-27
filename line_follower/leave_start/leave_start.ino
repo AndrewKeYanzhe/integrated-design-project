@@ -140,11 +140,18 @@ void setup() {
 
 }
 
+void(* resetFunc) (void) = 0;//declare reset function at address 0
+
+
 void read_sensors(){
   sensor_1 = digitalRead(2);
   sensor_2 = digitalRead(1);
   sensor_3 = digitalRead(0);
   sensor_4 = digitalRead(3);
+
+  if (digitalRead(13) == HIGH){
+    resetFunc();
+  }
  
   
   far_left_white = sensor_1 == LOW;
