@@ -40,7 +40,21 @@ void setup() {
 
   // Attach a servo to pin #10 - this is Servo 1 on the motor shield 
   left_servo.attach(10);
-  right_servo.attach(11); //CHANGE
+  right_servo.attach(9); //CHANGE
+
+  left_servo.write(90);
+  right_servo.write(90);
+  // delay(3000);
+
+  int angle = 90;
+
+
+
+  for (int i=0;i<=angle;i++){
+    left_servo.write(90+i);
+    right_servo.write(90-i);
+    delay(100);
+  }
 
   
 
@@ -49,6 +63,8 @@ void setup() {
 void loop() {
 
   ultrasound_dist = read_ultrasound();
+
+  ultrasound_dist = 999; // to change
 
   if (ultrasound_dist < contact_distance){
     // lift up
