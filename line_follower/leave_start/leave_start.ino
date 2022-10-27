@@ -122,6 +122,16 @@ void setup() {
   }
   Serial.println("Motor Shield found.");
 
+  // while (true){
+    
+  //   if (digitalRead(13) == HIGH){
+  //     delay(100);
+  //     break;
+  //   }
+  // }
+
+
+
   set_motor_speed('L','F',default_speed);
 
   // turn on motor
