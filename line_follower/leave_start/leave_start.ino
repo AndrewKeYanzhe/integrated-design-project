@@ -11,8 +11,8 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 
 // Select which 'port' - currently left = M1 and right = M2
-Adafruit_DCMotor *left_motor = AFMS.getMotor(1);
-Adafruit_DCMotor *right_motor = AFMS.getMotor(4);
+Adafruit_DCMotor *left_motor = AFMS.getMotor(4);
+Adafruit_DCMotor *right_motor = AFMS.getMotor(1);
 
 // Declaring variables
 int default_speed = 255; 
@@ -144,10 +144,10 @@ void(* resetFunc) (void) = 0;//declare reset function at address 0
 
 
 void read_sensors(){
-  sensor_1 = !(digitalRead(0));
-  sensor_2 = !(digitalRead(1));
-  sensor_3 = !(digitalRead(2));
-  sensor_4 = !(digitalRead(3));
+  sensor_1 = !(digitalRead(3));
+  sensor_2 = !(digitalRead(2));
+  sensor_3 = !(digitalRead(1));
+  sensor_4 = !(digitalRead(0));
 
   if (digitalRead(13) == HIGH){
     resetFunc();
