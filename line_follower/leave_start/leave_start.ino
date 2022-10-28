@@ -1,6 +1,6 @@
 // leave initial box and turn right onto white line
 
-bool enable_motors = 0;
+bool enable_motors = 1;
 
 #include <Adafruit_MotorShield.h>
 
@@ -13,7 +13,7 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 // Define variables for ultrasound:
 long ultrasound_duration;
-int left_distance;
+int left_dist;
 
 //--variables to set--------------------------
 
@@ -195,7 +195,7 @@ void read_sensors(){
   // Read the echoPin, pulseIn() returns the ultrasound_duration (length of the pulse) in microseconds:
   ultrasound_duration = pulseIn(echoPin, HIGH);
   // Calculate the distance:
-  left_distance = ultrasound_duration * 0.034 / 2;
+  left_dist = ultrasound_duration * 0.034 / 2;
 
   unsigned long timeElapsed = millis() - startTime;
   Serial.println(" ");
@@ -208,11 +208,12 @@ void read_sensors(){
   Serial.print(left_motorSpeed);
   Serial.print(right_motorSpeed);
   Serial.print("    left dist: ");
-  Serial.print(left_distance);  
+  Serial.print(left_dist);  
   Serial.print("    time: ");
   Serial.print(timeElapsed/1000);
   Serial.print("    state: ");
   Serial.print(current_state_v2);  
+  
   
 
 }
@@ -279,6 +280,19 @@ void follow_line(){
     set_motor_speed('L','F',255);
     set_motor_speed('R','F',default_speed*0);
   }
+else if (far_left_white + left_white + right_white + far_right_white ==0){
+  if (left_dist >=0 && left_dist <6){
+    Serial.print("    slight rightward correction");
+    set_motor_speed('L','F',default_speed);
+    set_motor_speed('R','F',default_speed*0.8);    
+  }
+  else if (left_dist <= 15 && left_dist>6){
+    Serial.print("    slight leftward correction");
+    set_motor_speed('L','F',default_speed*0.8);
+    set_motor_speed('R','F',default_speed);    
+  }
+}
+
 
   // check_state();
   
