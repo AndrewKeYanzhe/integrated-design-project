@@ -6,7 +6,7 @@
 
 // Define variables:
 long duration;
-int side_distance;
+int left_distance;
 // int prev_side_dist = -1;
 
 void setup() {
@@ -32,22 +32,21 @@ void loop() {
   // Read the echoPin, pulseIn() returns the duration (length of the pulse) in microseconds:
   duration = pulseIn(echoPin, HIGH);
   // Calculate the distance:
-  side_distance = duration * 0.034 / 2;
+  left_distance = duration * 0.034 / 2;
 
-  // if (prev_side_dist == -1 && side_distance <=15){ //max side distance in tunnel is about 10. Ideal distance is 6
-  //   prev_side_dist = side_distance;
+  // if (prev_side_dist == -1 && left_distance <=15){ //max side distance in tunnel is about 10. Ideal distance is 6
+  //   prev_side_dist = left_distance;
   // }
 
 
   // Print the distance on the Serial Monitor (Ctrl+Shift+M):
   Serial.println("");
   Serial.print("Distance = ");
-  Serial.print(side_distance);
+  Serial.print(left_distance);
   Serial.print(" ");
   // Serial.print("    Prev dist =");
   // Serial.print(prev_side_dist);
 
-  // prev_side_dist = side_distance;
 
 
 
