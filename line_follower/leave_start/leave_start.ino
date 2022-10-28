@@ -1,6 +1,6 @@
 // leave initial box and turn right onto white line
 
-bool enable_motors = 0;
+bool enable_motors = 1;
 
 #include <Adafruit_MotorShield.h>
 
@@ -275,6 +275,12 @@ void follow_line(){
   //loops
 
   read_sensors();
+
+  if (front_dist <=9){
+    //stop in front of block. robot is still able to go up the ramp
+    stop_motors();
+    delay(999999);
+  }
 
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.print("    continue forward");
