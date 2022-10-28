@@ -63,6 +63,7 @@ int right_motorSpeed = 0;
 char right_motorDirection = NULL;
 
 unsigned long startTime = NULL;
+unsigned long begin_stopping = NULL;
 
 float left_motor_ratio = 0.95;
 
@@ -286,17 +287,27 @@ void follow_line(){
 
   read_sensors();
 
+  //stop in front of block. robot is still able to go up the ramp
+  //distance of 9 is 5cm. distance needs to be <=2 to detect magnetism
   if (front_dist <=9 and stopped == 0){
     set_motor_speed('L','F',default_speed);
     set_motor_speed('R','F',default_speed);
 
-    delay(800);
-    stop_motors();
-    stopped = 1;
+    if (begin_stopping == NULL){
+      begin_stopping = millis();
+    }
+
+    if (millis() - begin_stopping >=700){ //700 is good
+      stop_motors();
+      stopped = 1;
+    }
+    
+    // delay(800);
+    // stop_motors();
+    // stopped = 1;
     
     // delay(99999999);    
-    //stop in front of block. robot is still able to go up the ramp
-    //distance of 9 is 5cm. distance needs to be <=2 to detect magnetism
+
   }
 
   if (stopped){
