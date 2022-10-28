@@ -13,7 +13,7 @@ bool enable_motors = 0;
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 // Define variables for ultrasound:
-long ultrasound_duration;
+long ultrasound_duration_left;
 int left_dist;
 
 //--variables to set--------------------------
@@ -193,10 +193,10 @@ void read_sensors(){
   digitalWrite(trigPin_left, HIGH);
   delayMicroseconds(15);
   digitalWrite(trigPin_left, LOW);
-  // Read the echoPin_left, pulseIn() returns the ultrasound_duration (length of the pulse) in microseconds:
-  ultrasound_duration = pulseIn(echoPin_left, HIGH);
+  // Read the echoPin_left, pulseIn() returns the ultrasound_duration_left (length of the pulse) in microseconds:
+  ultrasound_duration_left = pulseIn(echoPin_left, HIGH);
   // Calculate the distance:
-  left_dist = ultrasound_duration * 0.034 / 2;
+  left_dist = ultrasound_duration_left * 0.034 / 2;
 
   unsigned long timeElapsed = millis() - startTime;
   Serial.println(" ");
