@@ -34,7 +34,7 @@ void loop() {
   // Calculate the distance:
   side_distance = duration * 0.034 / 2;
 
-  if (prev_side_dist == -1 && side_distance <=15){ //max side distance in tunnel is about 10
+  if (prev_side_dist == -1 && side_distance <=15){ //max side distance in tunnel is about 10. Ideal distance is 6
     prev_side_dist = side_distance;
   }
 
