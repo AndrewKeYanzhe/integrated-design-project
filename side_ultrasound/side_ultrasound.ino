@@ -4,13 +4,13 @@
 #define trigPin 5
 #define echoPin 4
 
-// Define variables:
+// Define variables for ultrasound:
 long ultrasound_duration;
 int left_distance;
 
 
 void setup() {
-  // Define inputs and outputs:
+  // Define inputs and outputs for ultrasound:
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
