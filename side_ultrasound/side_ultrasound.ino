@@ -34,15 +34,16 @@ void loop() {
   // Calculate the distance:
   side_distance = duration * 0.034 / 2;
 
-  if (prev_side_dist == -1 && side_distance <=100){
+  if (prev_side_dist == -1 && side_distance <=15){ //max side distance in tunnel is about 10
     prev_side_dist = side_distance;
   }
 
 
   // Print the distance on the Serial Monitor (Ctrl+Shift+M):
+  Serial.println("");
   Serial.print("Distance = ");
   Serial.print(side_distance);
-  Serial.print(" cm");
+  Serial.print(" ");
   Serial.print("    Prev dist =");
   Serial.print(prev_side_dist);
 
