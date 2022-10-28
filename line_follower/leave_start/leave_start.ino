@@ -1,10 +1,19 @@
 // leave initial box and turn right onto white line
 
+bool enable_motors = 0;
 
 #include <Adafruit_MotorShield.h>
 
+// Define Trig and Echo pin for ultrasound
+#define trigPin 5
+#define echoPin 4
+
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+
+// Define variables for ultrasound:
+long ultrasound_duration;
+int left_distance;
 
 //--variables to set--------------------------
 
@@ -27,7 +36,7 @@ bool sensor_2;
 bool sensor_3;
 bool sensor_4;
 
-bool enable_motors = 1;
+
 
 bool far_left_white = false;
 bool left_white = false;
@@ -111,6 +120,10 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
 void setup() {
   // put your setup code here, to run once:
 
+  // Define inputs and outputs for ultrasound:
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
   Serial.begin(9600);
   AFMS.begin();
 
@@ -144,7 +157,7 @@ void setup() {
   // turn on motor
 
 
-  Serial.println("begin going forward");
+  // Serial.println("begin going forward");
   // delay(999999);
   startTime = millis();
 
@@ -161,7 +174,7 @@ void read_sensors(){
   sensor_3 = !(digitalRead(1));
   sensor_4 = !(digitalRead(0));
 
-  if (digitalRead(13) == HIGH){
+  if (digitalRead(12) == HIGH){
     resetFunc();
   }
  
@@ -170,6 +183,19 @@ void read_sensors(){
   left_white = sensor_2 == LOW;
   right_white = sensor_3 == LOW;
   far_right_white = sensor_4 == LOW;
+
+  //read ultrasound sensor
+  // Clear the trigPin by setting it LOW:
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(15);
+  // Trigger the sensor by setting th1234e trigPin high for 10 microseconds:
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(15);
+  digitalWrite(trigPin, LOW);
+  // Read the echoPin, pulseIn() returns the ultrasound_duration (length of the pulse) in microseconds:
+  ultrasound_duration = pulseIn(echoPin, HIGH);
+  // Calculate the distance:
+  left_distance = ultrasound_duration * 0.034 / 2;
 
   unsigned long timeElapsed = millis() - startTime;
   Serial.println(" ");
@@ -181,6 +207,8 @@ void read_sensors(){
   Serial.print("    motors: ");
   Serial.print(left_motorSpeed);
   Serial.print(right_motorSpeed);
+  Serial.print("    left dist: ");
+  Serial.print(left_distance);  
   Serial.print("    time: ");
   Serial.print(timeElapsed/1000);
   Serial.print("    state: ");
