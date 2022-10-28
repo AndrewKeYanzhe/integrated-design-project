@@ -1,6 +1,6 @@
 // leave initial box and turn right onto white line
 
-bool enable_motors = 0;
+bool enable_motors = 1;
 
 #include <Adafruit_MotorShield.h>
 
@@ -12,7 +12,7 @@ bool enable_motors = 0;
 
 const int hallEffectPin = 13;
 
-
+bool stopped = 0;
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -286,11 +286,24 @@ void follow_line(){
 
   read_sensors();
 
-  if (front_dist <=9){
-    //stop in front of block. robot is still able to go up the ramp
+  if (front_dist <=9 and stopped == 0){
+    set_motor_speed('L','F',default_speed);
+    set_motor_speed('R','F',default_speed);
+
+    delay(800);
     stop_motors();
-    // delay(999999);
+    stopped = 1;
+    
+    // delay(99999999);    
+    //stop in front of block. robot is still able to go up the ramp
+    //distance of 9 is 5cm. distance needs to be <=2 to detect magnetism
   }
+
+  if (stopped){
+    follow_line();
+  }
+
+
 
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.print("    continue forward");
