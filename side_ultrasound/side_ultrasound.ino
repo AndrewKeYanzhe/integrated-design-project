@@ -1,12 +1,13 @@
 /* Example code for HC-SR04 ultrasonic distance sensor with Arduino. No library required. More info: https://www.makerguides.com */
 
 // Define Trig and Echo pin:
-#define trigPin 2
-#define echoPin 3
+#define trigPin 5
+#define echoPin 4
 
 // Define variables:
 long duration;
-int distance;
+int side_distance;
+int prev_side_dist = -1;
 
 void setup() {
   // Define inputs and outputs:
@@ -15,12 +16,14 @@ void setup() {
 
   //Begin Serial communication at a baudrate of 9600:
   Serial.begin(9600);
+
+
 }
 
 void loop() {
   // Clear the trigPin by setting it LOW:
   digitalWrite(trigPin, LOW);
-  delayMicroseconds(5);
+  delayMicroseconds(15);
 
   // Trigger the sensor by setting th1234e trigPin high for 10 microseconds:
   digitalWrite(trigPin, HIGH);
@@ -29,12 +32,23 @@ void loop() {
   // Read the echoPin, pulseIn() returns the duration (length of the pulse) in microseconds:
   duration = pulseIn(echoPin, HIGH);
   // Calculate the distance:
-  distance = duration * 0.034 / 2;
+  side_distance = duration * 0.034 / 2;
+
+  if (prev_side_dist == -1 && side_distance <=100){
+    prev_side_dist = side_distance;
+  }
+
 
   // Print the distance on the Serial Monitor (Ctrl+Shift+M):
   Serial.print("Distance = ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  Serial.print(side_distance);
+  Serial.print(" cm");
+  Serial.print("    Prev dist =");
+  Serial.print(prev_side_dist);
+
+  prev_side_dist = side_distance;
+
+
 
   delay(50);
 }
