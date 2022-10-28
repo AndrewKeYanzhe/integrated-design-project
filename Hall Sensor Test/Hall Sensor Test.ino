@@ -7,8 +7,8 @@ void setup() {
 
 void loop() {
   // read the potentiometer:
-  int sensorReading = !digitalRead(hallEffectPin);
+  int hall_sensor = !digitalRead(hallEffectPin);
   // print the sensor reading
-  Serial.println(sensorReading);
+  Serial.println(hall_sensor);
   delay(100);
 }
