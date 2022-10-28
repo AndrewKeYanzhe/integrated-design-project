@@ -1,6 +1,6 @@
 // leave initial box and turn right onto white line
 
-bool enable_motors = 1;
+bool enable_motors = 0;
 
 #include <Adafruit_MotorShield.h>
 
@@ -9,6 +9,9 @@ bool enable_motors = 1;
 #define echoPin_left 4
 #define trigPin_front 7
 #define echoPin_front 6
+
+const int hallEffectPin = 13;
+
 
 
 // Create the motor shield object with the default I2C address
@@ -217,6 +220,8 @@ void read_sensors(){
   // Calculate the distance:
   front_dist = front_ultrasound_duration * 0.034 / 2;
 
+  int hall_sensor = !digitalRead(hallEffectPin);
+
 
   unsigned long timeElapsed = millis() - startTime;
   Serial.println(" ");
@@ -231,13 +236,18 @@ void read_sensors(){
   //motor
   Serial.print("    motors: ");
   Serial.print(left_motorSpeed);
+  Serial.print(", ");
   Serial.print(right_motorSpeed);
 
   //ultrasound
-  Serial.print("    left dist: ");
+  Serial.print("    left: ");
   Serial.print(left_dist);
-  Serial.print("    front dist: ");
+  Serial.print("    front: ");
   Serial.print(front_dist);
+
+  //hall sensor
+  Serial.print("    magnetic: ");
+  Serial.print(hall_sensor);
 
 
   //time  
@@ -279,7 +289,7 @@ void follow_line(){
   if (front_dist <=9){
     //stop in front of block. robot is still able to go up the ramp
     stop_motors();
-    delay(999999);
+    // delay(999999);
   }
 
   if (left_white && right_white && !far_left_white && !far_right_white){
