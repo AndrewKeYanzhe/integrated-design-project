@@ -47,6 +47,8 @@ char right_motorDirection = NULL;
 
 unsigned long startTime = NULL;
 
+float left_motor_ratio = 0.95;
+
 void set_motor_speed(char motor_label, char new_direction, int new_speed) {
   if (enable_motors == 0){
     return;
@@ -76,7 +78,7 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
     // send a command that sets the  motor speed to the new speed, then ...
     switch(motor_label){
     case 'L':
-      left_motor->setSpeed(new_speed);
+      left_motor->setSpeed(new_speed*left_motor_ratio);
       left_motorSpeed = new_speed;
 
       switch(new_direction){
@@ -136,6 +138,8 @@ void setup() {
 
 
   set_motor_speed('R','F',default_speed);
+
+  // delay(20000000);
 
   // turn on motor
 
