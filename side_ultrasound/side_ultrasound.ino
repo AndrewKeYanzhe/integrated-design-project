@@ -1,8 +1,10 @@
 /* Example code for HC-SR04 ultrasonic distance sensor with Arduino. No library required. More info: https://www.makerguides.com */
 
 // Define Trig and Echo pin:
-#define trigPin 5
-#define echoPin 4
+#define trigPin 7
+#define echoPin 6
+//5,4 is left side
+//7,6 is front
 
 // Define variables for ultrasound:
 long ultrasound_duration;
