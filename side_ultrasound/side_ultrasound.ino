@@ -4,7 +4,7 @@
 #define trigPin 7
 #define echoPin 6
 //5,4 is left side
-//7,6 is front
+//7,6 is front. For front sensor, 5cm ~ reading of 9
 
 // Define variables for ultrasound:
 long ultrasound_duration;
