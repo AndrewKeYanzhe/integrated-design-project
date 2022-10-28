@@ -7,6 +7,8 @@ bool enable_motors = 0;
 // Define Trig and Echo pin for ultrasound
 #define trigPin_left 5
 #define echoPin_left 4
+#define trigPin_front 7
+#define echoPin_front 6
 
 
 // Create the motor shield object with the default I2C address
@@ -15,6 +17,8 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 // Define variables for ultrasound:
 long left_ultrasound_duration;
 int left_dist;
+long front_ultrasound_duration;
+int front_dist;
 
 //--variables to set--------------------------
 
@@ -124,6 +128,8 @@ void setup() {
   // Define inputs and outputs for ultrasound:
   pinMode(trigPin_left, OUTPUT);
   pinMode(echoPin_left, INPUT);
+  pinMode(trigPin_front, OUTPUT);
+  pinMode(echoPin_front, INPUT);
 
   Serial.begin(9600);
   AFMS.begin();
@@ -185,7 +191,7 @@ void read_sensors(){
   right_white = sensor_3 == LOW;
   far_right_white = sensor_4 == LOW;
 
-  //read ultrasound sensor
+  //read left ultrasound sensor
   // Clear the trigPin_left by setting it LOW:
   digitalWrite(trigPin_left, LOW);
   delayMicroseconds(15);
@@ -198,18 +204,43 @@ void read_sensors(){
   // Calculate the distance:
   left_dist = left_ultrasound_duration * 0.034 / 2;
 
+  //read front ultrasound sensor
+  // Clear the trigPin_front by setting it LOW:
+  digitalWrite(trigPin_front, LOW);
+  delayMicroseconds(15);
+  // Trigger the sensor by setting th1234e trigPin_left high for 10 microseconds:
+  digitalWrite(trigPin_front, HIGH);
+  delayMicroseconds(15);
+  digitalWrite(trigPin_front, LOW);
+  // Read the echoPin_left, pulseIn() returns the left_ultrasound_duration (length of the pulse) in microseconds:
+  front_ultrasound_duration = pulseIn(echoPin_front, HIGH);
+  // Calculate the distance:
+  front_dist = front_ultrasound_duration * 0.034 / 2;
+
+
   unsigned long timeElapsed = millis() - startTime;
   Serial.println(" ");
+
+  //line sensor
   Serial.print("white: ");
   Serial.print(far_left_white);
   Serial.print(left_white);
   Serial.print(right_white);
   Serial.print(far_right_white);
+
+  //motor
   Serial.print("    motors: ");
   Serial.print(left_motorSpeed);
   Serial.print(right_motorSpeed);
+
+  //ultrasound
   Serial.print("    left dist: ");
-  Serial.print(left_dist);  
+  Serial.print(left_dist);
+  Serial.print("    front dist: ");
+  Serial.print(front_dist);
+
+
+  //time  
   Serial.print("    time: ");
   Serial.print(timeElapsed/1000);
   Serial.print("    state: ");
