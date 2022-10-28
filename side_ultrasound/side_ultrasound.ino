@@ -5,9 +5,9 @@
 #define echoPin 4
 
 // Define variables:
-long duration;
+long ultrasound_duration;
 int left_distance;
-// int prev_side_dist = -1;
+
 
 void setup() {
   // Define inputs and outputs:
@@ -29,10 +29,10 @@ void loop() {
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(15);
   digitalWrite(trigPin, LOW);
-  // Read the echoPin, pulseIn() returns the duration (length of the pulse) in microseconds:
-  duration = pulseIn(echoPin, HIGH);
+  // Read the echoPin, pulseIn() returns the ultrasound_duration (length of the pulse) in microseconds:
+  ultrasound_duration = pulseIn(echoPin, HIGH);
   // Calculate the distance:
-  left_distance = duration * 0.034 / 2;
+  left_distance = ultrasound_duration * 0.034 / 2;
 
   // if (prev_side_dist == -1 && left_distance <=15){ //max side distance in tunnel is about 10. Ideal distance is 6
   //   prev_side_dist = left_distance;
