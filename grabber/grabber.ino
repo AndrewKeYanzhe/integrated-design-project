@@ -2,13 +2,13 @@
 // servo.write is clockwise
 
 #include <Servo.h>
-#include <Adafruit_MotorShield.h>
+//#include <Adafruit_MotorShield.h>
 
 #define trigPin 6
 #define echoPin 5
 
 // Create the motor shield object with the default I2C address
-Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+//Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 Servo left_servo;
 Servo right_servo;
@@ -27,16 +27,16 @@ void setup() {
 
   // set up Serial library at 9600 bps
   Serial.begin(9600);
-  AFMS.begin();
+  //AFMS.begin();
 
 //   Serial.println("");
 
-  if (!AFMS.begin()) {         // create with the default frequency 1.6KHz
+//  if (!AFMS.begin()) {         // create with the default frequency 1.6KHz
   // if (!AFMS.begin(1000)) {  // OR with a different frequency, say 1KHz
-    Serial.println("Could not find Motor Shield. Check wiring.");
-    while (1);
-  }
-  Serial.println("Motor Shield found.");
+  //  Serial.println("Could not find Motor Shield. Check wiring.");
+    //while (1);
+  //}
+  //Serial.println("Motor Shield found.");
 
   // Attach a servo to pin #10 - this is Servo 1 on the motor shield 
   left_servo.attach(10);
@@ -44,6 +44,10 @@ void setup() {
 
   left_servo.write(90);
   right_servo.write(90);
+  Serial.println("1");
+  // delay(999999);
+  // delay(3000);
+  Serial.println("2");
   // delay(3000);
 
   int angle = 90;
@@ -55,6 +59,10 @@ void setup() {
     right_servo.write(90-i);
     delay(100);
   }
+
+  delay(2000);
+  left_servo.write(90);
+  right_servo.write(90);
 
   
 
