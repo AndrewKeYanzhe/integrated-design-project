@@ -1,12 +1,13 @@
 // leave initial box and turn right onto white line
 
-bool enable_motors = 1;
+bool enable_motors = 0;
 
 #include <Adafruit_MotorShield.h>
 
 // Define Trig and Echo pin for ultrasound
-#define trigPin 5
-#define echoPin 4
+#define trigPin_left 5
+#define echoPin_left 4
+
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -121,8 +122,8 @@ void setup() {
   // put your setup code here, to run once:
 
   // Define inputs and outputs for ultrasound:
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
+  pinMode(trigPin_left, OUTPUT);
+  pinMode(echoPin_left, INPUT);
 
   Serial.begin(9600);
   AFMS.begin();
@@ -185,15 +186,15 @@ void read_sensors(){
   far_right_white = sensor_4 == LOW;
 
   //read ultrasound sensor
-  // Clear the trigPin by setting it LOW:
-  digitalWrite(trigPin, LOW);
+  // Clear the trigPin_left by setting it LOW:
+  digitalWrite(trigPin_left, LOW);
   delayMicroseconds(15);
-  // Trigger the sensor by setting th1234e trigPin high for 10 microseconds:
-  digitalWrite(trigPin, HIGH);
+  // Trigger the sensor by setting th1234e trigPin_left high for 10 microseconds:
+  digitalWrite(trigPin_left, HIGH);
   delayMicroseconds(15);
-  digitalWrite(trigPin, LOW);
-  // Read the echoPin, pulseIn() returns the ultrasound_duration (length of the pulse) in microseconds:
-  ultrasound_duration = pulseIn(echoPin, HIGH);
+  digitalWrite(trigPin_left, LOW);
+  // Read the echoPin_left, pulseIn() returns the ultrasound_duration (length of the pulse) in microseconds:
+  ultrasound_duration = pulseIn(echoPin_left, HIGH);
   // Calculate the distance:
   left_dist = ultrasound_duration * 0.034 / 2;
 
