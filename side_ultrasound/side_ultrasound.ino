@@ -46,7 +46,7 @@ void loop() {
   Serial.print("    Prev dist =");
   Serial.print(prev_side_dist);
 
-  prev_side_dist = side_distance;
+  // prev_side_dist = side_distance;
 
 
 
