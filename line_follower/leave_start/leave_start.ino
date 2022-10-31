@@ -180,7 +180,7 @@ void read_sensors(){
   sensor_4 = !(digitalRead(0));
 
   if (digitalRead(12) == HIGH){
-    resetFunc();
+    // resetFunc();
   }
  
   
