@@ -40,10 +40,13 @@ void setup() {
 
   // Attach a servo to pin #10 - this is Servo 1 on the motor shield 
   left_servo.attach(10);
-  right_servo.attach(9); //CHANGE
+  right_servo.attach(9);
 
+  //driving position
   left_servo.write(0);
-  right_servo.write(180); //driving position
+  right_servo.write(180); 
+
+
   delay(1000);
   left_servo.write(90);
   right_servo.write(90);
