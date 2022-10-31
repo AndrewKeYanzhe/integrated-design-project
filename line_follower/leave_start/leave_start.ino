@@ -213,6 +213,8 @@ void read_sensors(){
   right_white = sensor_3 == LOW;
   far_right_white = sensor_4 == LOW;
 
+  //note: if ultrasound sensors are not attached, this part of code will run very slowly. each loop takes 1-2 seconds
+
   //read left ultrasound sensor
   // Clear the trigPin_left by setting it LOW:
   digitalWrite(trigPin_left, LOW);
