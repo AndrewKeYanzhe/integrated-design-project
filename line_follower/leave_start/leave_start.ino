@@ -52,7 +52,8 @@ bool sensor_2;
 bool sensor_3;
 bool sensor_4;
 
-
+int tjunctions_crossed = 0;
+unsigned long tjunction_timestamp = NULL;
 
 bool far_left_white = false;
 bool left_white = false;
@@ -271,6 +272,11 @@ void read_sensors(){
   //time  
   Serial.print("    time: ");
   Serial.print(timeElapsed/1000);
+
+  Serial.print("    tjunc: ");
+  Serial.print(tjunctions_crossed);
+
+  //state
   Serial.print("    state: ");
   Serial.print(current_state_v2);  
   
@@ -332,7 +338,15 @@ void follow_line(){
     follow_line();
   }
 
-
+  if(right_white && far_right_white){
+    if (tjunction_timestamp == NULL){
+      tjunction_timestamp = millis();
+      tjunctions_crossed = tjunctions_crossed + 1;
+    }
+    else if (millis()-tjunction_timestamp > 1000){
+      tjunctions_crossed = tjunctions_crossed + 1;
+    }
+  }
 
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.print("    continue forward");
@@ -350,6 +364,7 @@ void follow_line(){
     
   }
 
+  //normal course correction
   else if (left_white && !right_white){
     Serial.print("    slight leftward correction");
     set_motor_speed('L','F',default_speed*0.8);
@@ -370,18 +385,20 @@ void follow_line(){
     set_motor_speed('L','F',255);
     set_motor_speed('R','F',default_speed*0);
   }
-else if (far_left_white + left_white + right_white + far_right_white ==0){
-  if (left_dist >=0 && left_dist <6){
-    Serial.print("    slight rightward correction");
-    set_motor_speed('L','F',default_speed);
-    set_motor_speed('R','F',default_speed*0.8);    
+
+  //course correction in tunnel (all sensors read black)
+  else if (far_left_white + left_white + right_white + far_right_white ==0){
+    if (left_dist >=0 && left_dist <6){
+      Serial.print("    slight rightward correction");
+      set_motor_speed('L','F',default_speed);
+      set_motor_speed('R','F',default_speed*0.8);    
+    }
+    else if (left_dist <= 15 && left_dist>6){
+      Serial.print("    slight leftward correction");
+      set_motor_speed('L','F',default_speed*0.8);
+      set_motor_speed('R','F',default_speed);    
+    }
   }
-  else if (left_dist <= 15 && left_dist>6){
-    Serial.print("    slight leftward correction");
-    set_motor_speed('L','F',default_speed*0.8);
-    set_motor_speed('R','F',default_speed);    
-  }
-}
 
 
   
