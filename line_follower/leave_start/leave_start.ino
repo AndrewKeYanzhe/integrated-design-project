@@ -33,7 +33,7 @@ int front_dist;
 
 //--variables to set--------------------------
 
-
+int amber_pin = 12;
 
 // Select which 'port' - currently left = M1 and right = M2
 Adafruit_DCMotor *left_motor = AFMS.getMotor(4);
@@ -167,6 +167,8 @@ void setup() {
   left_servo.attach(10);
   right_servo.attach(9);
 
+  pinMode (amber_pin, OUTPUT);
+
   while (digitalRead(12) == LOW){
     delay(1);
   }
@@ -200,7 +202,10 @@ void read_sensors(){
   // if (digitalRead(12) == HIGH){
     // resetFunc();
   // }
- 
+
+  if (left_motorSpeed + right_motorSpeed > 0){
+    digitalWrite(amber_pin,((millis()-startTime)/250)%2);
+  }
   
   far_left_white = sensor_1 == LOW;
   left_white = sensor_2 == LOW;
