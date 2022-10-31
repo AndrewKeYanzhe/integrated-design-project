@@ -1,6 +1,7 @@
 // leave initial box and turn right onto white line
 
 bool enable_motors = 1;
+// enable_motors = 0;
 
 #include <Adafruit_MotorShield.h>
 
@@ -53,7 +54,7 @@ bool far_right_white = false;
 
 bool on_line = false;
 
-int current_state = 0;
+
 String current_state_v2 = "initial box";
 // int right_turns = 0;
 
@@ -157,19 +158,10 @@ void setup() {
 
 
   set_motor_speed('L','F',default_speed);
-
-  // turn on motor
-
-
   set_motor_speed('R','F',default_speed);
-
-  // delay(20000000);
-
-  // turn on motor
 
 
   // Serial.println("begin going forward");
-  // delay(999999);
   startTime = millis();
 
 
@@ -324,9 +316,9 @@ void follow_line(){
 
   else if (far_left_white && far_right_white){
     Serial.print("    crossed white line");
-    current_state = current_state + 1;
+
     delay(100);
-    // check_state();
+
     turn_right(); //TODO: uncomment when using current_state_V2
     
     
@@ -366,7 +358,6 @@ else if (far_left_white + left_white + right_white + far_right_white ==0){
 }
 
 
-  // check_state();
   
 
   delay(loop_delay);
@@ -378,17 +369,7 @@ void stop_motors(){
     set_motor_speed('R','F',0);
 }
 
-void check_state(){
-  // Serial.println("checking state");
-  if (current_state == 1){
-    // stop_motors();
-    turn_right();
-  }
 
-  // follow_line();
-  
-
-}
 
 void turn_right(){
   current_state_v2 = "turning right";
@@ -398,15 +379,11 @@ void turn_right(){
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',default_speed*0.3);
 
-  // stop_motors();
-
-  // set_motor_speed('L','F',default_speed);
-
 
   if (left_white || right_white){
     Serial.println("found line");
     current_state_v2 = "line following";
-    current_state = current_state+1;
+
 
     set_motor_speed('L','F',default_speed*0.8);
     set_motor_speed('R','F',default_speed);
@@ -414,7 +391,6 @@ void turn_right(){
     // stop_motors();
 
     on_line = true;
-    // right_turns = right_turns + 1;
     follow_line();
     return;
   }
