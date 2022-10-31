@@ -170,9 +170,9 @@ void setup() {
 
   pinMode (amber_pin, OUTPUT);
 
-  while (digitalRead(12) == LOW){
-    delay(1);
-  }
+  // while (digitalRead(12) == LOW){
+  //   delay(1);
+  // }
 
   //driving position
   left_servo.write(0);
