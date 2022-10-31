@@ -167,6 +167,10 @@ void setup() {
   left_servo.attach(10);
   right_servo.attach(9);
 
+  while (digitalRead(12) == LOW){
+    delay(1);
+  }
+
   //driving position
   left_servo.write(0);
   right_servo.write(180); 
@@ -193,9 +197,9 @@ void read_sensors(){
   sensor_3 = !(digitalRead(1));
   sensor_4 = !(digitalRead(0));
 
-  if (digitalRead(12) == HIGH){
+  // if (digitalRead(12) == HIGH){
     // resetFunc();
-  }
+  // }
  
   
   far_left_white = sensor_1 == LOW;
