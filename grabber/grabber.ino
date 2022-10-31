@@ -42,6 +42,9 @@ void setup() {
   left_servo.attach(10);
   right_servo.attach(9); //CHANGE
 
+  left_servo.write(0);
+  right_servo.write(180); //driving position
+  delay(1000);
   left_servo.write(90);
   right_servo.write(90);
   Serial.println("1");
@@ -50,7 +53,7 @@ void setup() {
   Serial.println("2");
   // delay(3000);
 
-  int angle = 90;
+  int angle = 80;
 
 
 
@@ -61,6 +64,15 @@ void setup() {
   }
 
   delay(2000);
+  // delay(9999999);
+
+  for (int i=angle;i>=0;i=i-1){
+    left_servo.write(90+i); //left goes from 90 to 90+angle
+    right_servo.write(90-i); //right goes from 90 to 90-angle
+    delay(100);
+  }
+
+
   left_servo.write(90);
   right_servo.write(90);
 
