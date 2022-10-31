@@ -338,7 +338,7 @@ void follow_line(){
     follow_line();
   }
 
-  if(right_white && far_right_white){
+  if((left_white || right_white) && far_right_white){
     if (tjunction_timestamp == NULL){
       tjunction_timestamp = millis();
       tjunctions_crossed = tjunctions_crossed + 1;
