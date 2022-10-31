@@ -137,7 +137,9 @@ void setup() {
   pinMode(echoPin_front, INPUT);
 
   Serial.begin(9600);
+  Serial.println("starting setup");
   AFMS.begin();
+  Serial.println("started AFMS");
 
 
   if (!AFMS.begin()) {         // create with the default frequency 1.6KHz
@@ -254,6 +256,7 @@ void read_sensors(){
 }
 
 void loop() {
+  Serial.println("running loop");
   // put your main code here, to run repeatedly:
 
   read_sensors();
