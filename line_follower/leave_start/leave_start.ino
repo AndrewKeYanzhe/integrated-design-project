@@ -1,15 +1,22 @@
 // leave initial box and turn right onto white line
 
 bool enable_motors = 1;
+
 // enable_motors = 0;
 
 #include <Adafruit_MotorShield.h>
+#include <Servo.h>
 
 // Define Trig and Echo pin for ultrasound
 #define trigPin_left 5
 #define echoPin_left 4
 #define trigPin_front 7
 #define echoPin_front 6
+
+Servo left_servo;
+Servo right_servo;
+
+
 
 const int hallEffectPin = 13;
 
@@ -156,6 +163,13 @@ void setup() {
   //     break;
   //   }
   // }
+
+  left_servo.attach(10);
+  right_servo.attach(9);
+
+  //driving position
+  left_servo.write(0);
+  right_servo.write(180); 
 
 
 
