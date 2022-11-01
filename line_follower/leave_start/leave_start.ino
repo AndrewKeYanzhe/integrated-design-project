@@ -37,6 +37,8 @@ int front_dist;
 //--variables to set--------------------------
 
 int amber_pin = 12;
+int green_pin = 12;
+int red_pin = 11; 
 
 // Select which 'port' - currently left = M1 and right = M2
 Adafruit_DCMotor *left_motor = AFMS.getMotor(4);
@@ -171,7 +173,10 @@ void setup() {
   left_servo.attach(10);
   right_servo.attach(9);
 
+  pinMode(green_pin, OUTPUT);
+  pinMode(red_pin, OUTPUT);
   pinMode (amber_pin, OUTPUT);
+
 
   while (digitalRead(13) == LOW){
     delay(1);
@@ -315,6 +320,14 @@ void loop() {
 void pick_up(){
   read_sensors();
   magnetic = hall_sensor;
+
+  if (magnetic){
+    digitalWrite(red_pin, 1);
+  }
+  else {
+    digitalWrite(green_pin, 1);
+  }
+  
 
   int angle = 80;
 
