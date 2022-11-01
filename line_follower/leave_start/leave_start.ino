@@ -65,7 +65,6 @@ bool left_white = false;
 bool right_white = false;
 bool far_right_white = false;
 
-bool on_line = false;
 
 
 String current_state = "initial box";
@@ -305,7 +304,6 @@ void loop() {
 
   if (left_white || right_white){
     Serial.println("found line");
-    on_line = true;
     current_state = "line following";
     delay(100);
     follow_line();
@@ -363,6 +361,7 @@ void pick_up(){
 
 void follow_line(){
   //loops
+  current_state = "line_following";
 
   read_sensors();
 
@@ -502,30 +501,22 @@ void stop_motors(){
 void turn_left(){
   current_state = "turning left";
 
-  //loops
   read_sensors();
   set_motor_speed('R','F',255);
   set_motor_speed('L','F',default_speed*0.3);
 
-
   if (left_white || right_white){
     Serial.println("found line");
-    current_state = "line following";
-
-
     set_motor_speed('R','F',default_speed*0.8);
     set_motor_speed('L','F',default_speed);
     delay(500);
-    // stop_motors();
 
-    on_line = true;
     follow_line();
     return;
   }
-
+  
   delay(loop_delay);
   turn_left();
-
 }
 
 void enter_square(){
@@ -541,4 +532,6 @@ void enter_square(){
   stop_motors();
   delay(9999999); //debug
 }
+
+
 
