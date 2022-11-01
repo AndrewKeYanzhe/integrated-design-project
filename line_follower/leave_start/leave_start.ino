@@ -173,7 +173,7 @@ void setup() {
 
   pinMode (amber_pin, OUTPUT);
 
-  // while (digitalRead(12) == LOW){
+  // while (digitalRead(13) == LOW){
   //   delay(1);
   // }
 
