@@ -85,10 +85,11 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
   if (enable_motors == 0){
     return;
   }
-  //read old speed
+  
   int old_speed = NULL;
   char old_direction = NULL;
 
+  //read old speed
   switch(motor_label){
     case 'L':
       old_speed = left_motorSpeed;
@@ -109,33 +110,33 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
   else {
     // send a command that sets the  motor speed to the new speed, then ...
     switch(motor_label){
-    case 'L':
-      left_motor->setSpeed(new_speed*left_motor_ratio);
-      left_motorSpeed = new_speed;
-
-      switch(new_direction){
-        case 'F':
-          left_motor->run(FORWARD);
-          left_motorDirection = new_direction;
-        case 'B':
-          left_motor->run(BACKWARD);
-          left_motorDirection = new_direction;
-      }      
-      break;
-    case 'R':
-      right_motor->setSpeed(new_speed);
-      right_motorSpeed = new_speed;
-      
-
-
-      switch(new_direction){
-        case 'F':
-          right_motor->run(FORWARD);
-          right_motorDirection = new_direction;
-        case 'B':
-          right_motor->run(BACKWARD);
-          right_motorDirection = new_direction;
-      }      
+      case 'L':
+        left_motor->setSpeed(new_speed*left_motor_ratio);
+        left_motorSpeed = new_speed;
+        switch(new_direction){
+          case 'F':
+            left_motor->run(FORWARD);      
+            break;
+          case 'B':
+            left_motor->run(BACKWARD);
+            break;
+        }
+        left_motorDirection = new_direction;
+        break;
+      case 'R':
+        right_motor->setSpeed(new_speed);
+        right_motorSpeed = new_speed;
+        switch(new_direction){
+          case 'F':
+            right_motor->run(FORWARD);
+            break;
+          case 'B':
+            right_motor->run(BACKWARD);
+            break;
+        
+        }
+        right_motorDirection = new_direction;
+        break;     
     }
   }
 }
