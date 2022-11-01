@@ -542,14 +542,17 @@ void turn_right(){
 
 void enter_square(){
   current_state = "entering sqaure";
+  
+  //turn right
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',default_speed*0);
-
   delay(4000);
+
+  //go forward
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',255);
-
   delay(1200);
+
   stop_motors();
   delay(9999999); //debug
 }
