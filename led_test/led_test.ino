@@ -1,6 +1,6 @@
 
-int green_pin = 12; //
-int red_pin = 11;
+int green_pin = 12;
+int red_pin = 11; 
 int amber_pin = 13;//amber is not working
 
 void setup() {
@@ -19,7 +19,7 @@ void setup() {
 
   // delay(9999999999);
 
-  digitalWrite(green_pin, 0);
+  digitalWrite(green_pin, 1);
   digitalWrite(red_pin, 1);
   digitalWrite(amber_pin,0);
 
