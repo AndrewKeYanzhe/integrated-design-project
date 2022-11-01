@@ -36,7 +36,7 @@ int front_dist;
 
 //--variables to set--------------------------
 
-int amber_pin = 12;
+int amber_pin = -1;
 int green_pin = 12;
 int red_pin = 11; 
 
@@ -178,10 +178,10 @@ void setup() {
   pinMode (amber_pin, OUTPUT);
 
 
-  while (digitalRead(13) == LOW){
-    delay(1);
-    Serial.println("waiting for start button press");
-  }
+  // while (digitalRead(13) == LOW){
+  //   delay(1);
+  //   Serial.println("waiting for start button press");
+  // }
 
   //driving position
   left_servo.write(0);
@@ -334,16 +334,20 @@ void pick_up(){
   
 
   delay(5000);
-  for (int i=0;i<=angle;i++){
-    left_servo.write(90+i);
-    right_servo.write(90-i);
-    delay(100);
-  }
+
+  left_servo.write(90);
+  right_servo.write(90);
+  // for (int i=0;i<=angle;i++){
+  //   left_servo.write(90+i);
+  //   right_servo.write(90-i);
+  //   delay(100);
+  // }
   holding_block = 1;
   tjunctions_crossed = 0;
-  delay(9999999999); //debug
+  // delay(9999999999); //debug
 
   delay(1000);
+  stopped = 0;
   set_motor_speed('L','F',default_speed);
   set_motor_speed('R','F',default_speed);
   follow_line();
@@ -358,7 +362,7 @@ void follow_line(){
 
   //stop in front of block. robot is still able to go up the ramp
   //distance of 9 is 5cm. distance needs to be <=2 to detect magnetism
-  if (front_dist <=9 and stopped == 0){
+  if (front_dist <=9 and stopped == 0 && holding_block ==0){
     set_motor_speed('L','F',default_speed);
     set_motor_speed('R','F',default_speed);
 
@@ -366,7 +370,7 @@ void follow_line(){
       begin_stopping = millis();
     }
 
-    if (millis() - begin_stopping >=750){ //700 is good
+    if (millis() - begin_stopping >=800){ //700 is good
       stop_motors();
       stopped = 1;
       pick_up();      
@@ -393,10 +397,16 @@ void follow_line(){
     }
     else if (millis()-tjunction_timestamp > 1000){
       tjunctions_crossed = tjunctions_crossed + 1;
+      tjunction_timestamp = millis();
     }
 
     //magnetic return to red sqaure, tjunc = 3
+    // holding_block = 1; //debug
+    // magnetic = 0; //debug
+
     if (holding_block){
+
+      
       switch (magnetic){
         case 0:
           if (tjunctions_crossed == 1){
@@ -517,11 +527,11 @@ void enter_square(){
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',default_speed*0);
 
-  delay(1000);
+  delay(4500);
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',255);
 
-  delay(1000);
+  delay(1500);
   stop_motors();
   delay(9999999); //debug
 }
