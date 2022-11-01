@@ -290,7 +290,7 @@ void read_sensors(){
 }
 
 void loop() {
-  Serial.println("running loop");
+  // Serial.println("running loop");
   // put your main code here, to run repeatedly:
 
   read_sensors();
