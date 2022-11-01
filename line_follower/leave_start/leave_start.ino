@@ -380,8 +380,24 @@ void follow_line(){
     else if (millis()-tjunction_timestamp > 1000){
       tjunctions_crossed = tjunctions_crossed + 1;
     }
+
+    //magnetic return to red sqaure, tjunc = 3
+    if (holding_block){
+      switch (magnetic){
+        case 0:
+          if (tjunctions_crossed == 1){
+            stop_motors(); //debug
+          }
+          break;
+        case 1:
+          if(tjunctions_crossed == 3){
+            stop_motors();
+          }
+      }
+    }
   }
 
+  
   if (left_white && right_white && !far_left_white && !far_right_white){
     Serial.print("    continue forward");
     set_motor_speed('L','F',default_speed);
