@@ -558,5 +558,22 @@ void enter_square_on_right(){
   stop_motors();
 }
 
+void enter_square_on_left(){
+  current_state = "entering sqaure on left";
+  
+  //turn right
+  set_motor_speed('R','F',255);
+  set_motor_speed('L','F',default_speed*0);
+  delay(4000);
+
+  //go forward
+  set_motor_speed('R','F',255);
+  set_motor_speed('L','F',255);
+  delay(1200);
+
+  stop_motors();
+}
+
+
 
 
