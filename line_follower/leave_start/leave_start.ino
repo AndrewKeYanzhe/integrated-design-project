@@ -173,9 +173,10 @@ void setup() {
 
   pinMode (amber_pin, OUTPUT);
 
-  // while (digitalRead(13) == LOW){
-  //   delay(1);
-  // }
+  while (digitalRead(13) == LOW){
+    delay(1);
+    Serial.println("waiting for start button press");
+  }
 
   //driving position
   left_servo.write(0);
