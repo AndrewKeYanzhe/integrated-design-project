@@ -347,6 +347,11 @@ void pick_up(){
   // delay(9999999999); //debug
 
   delay(1000);
+  set_motor_speed('L','F',255);
+  set_motor_speed('R','F',default_speed*0);
+
+  delay(12000);
+
   stopped = 0;
   set_motor_speed('L','F',default_speed);
   set_motor_speed('R','F',default_speed);
@@ -498,8 +503,8 @@ void turn_right(){
 
   //loops
   read_sensors();
-  set_motor_speed('L','F',255);
-  set_motor_speed('R','F',default_speed*0.3);
+  set_motor_speed('R','F',255);
+  set_motor_speed('L','F',default_speed*0.3);
 
 
   if (left_white || right_white){
@@ -507,8 +512,8 @@ void turn_right(){
     current_state = "line following";
 
 
-    set_motor_speed('L','F',default_speed*0.8);
-    set_motor_speed('R','F',default_speed);
+    set_motor_speed('R','F',default_speed*0.8);
+    set_motor_speed('L','F',default_speed);
     delay(500);
     // stop_motors();
 
@@ -527,11 +532,11 @@ void enter_square(){
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',default_speed*0);
 
-  delay(4500);
+  delay(4000);
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',255);
 
-  delay(1500);
+  delay(1200);
   stop_motors();
   delay(9999999); //debug
 }
