@@ -394,7 +394,7 @@ void follow_line(){
         case 1:
           if(tjunctions_crossed == 3){
             stop_motors();
-            entersquare();
+            enter_square();
           }
       }
     }
@@ -498,7 +498,7 @@ void turn_right(){
 
 }
 
-void enter_sqaure(){
+void enter_square(){
   current_state = "entering sqaure";
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',default_speed*0);
