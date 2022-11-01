@@ -357,6 +357,8 @@ void follow_line(){
     follow_line();
   }
 
+
+  // finding right T junction
   if((left_white || right_white) && far_right_white){
     if (tjunction_timestamp == NULL){
       tjunction_timestamp = millis();
@@ -373,6 +375,8 @@ void follow_line(){
     set_motor_speed('R','F',default_speed);
   }
 
+
+  //crossing white line
   else if (far_left_white && far_right_white){
     Serial.print("    crossed white line");
 
