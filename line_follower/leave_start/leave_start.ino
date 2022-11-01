@@ -1,6 +1,6 @@
 // leave initial box and turn right onto white line
 
-bool enable_motors = 1;
+bool enable_motors = 0;
 
 // enable_motors = 0;
 
@@ -8,17 +8,17 @@ bool enable_motors = 1;
 #include <Servo.h>
 
 // Define Trig and Echo pin for ultrasound
-#define trigPin_left 5
-#define echoPin_left 4
-#define trigPin_front 7
-#define echoPin_front 6
+#define trigPin_left 7
+#define echoPin_left 6
+#define trigPin_front 5
+#define echoPin_front 4
 
 Servo left_servo;
 Servo right_servo;
 
 
 
-const int hallEffectPin = 13;
+const int hallEffectPin = 8;
 
 bool stopped = 0;
 
