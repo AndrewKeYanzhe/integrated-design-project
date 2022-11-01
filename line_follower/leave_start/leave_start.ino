@@ -19,9 +19,11 @@ Servo right_servo;
 
 
 const int hallEffectPin = 8;
+int hall_sensor = NULL;
 
 bool stopped = 0;
 bool holding_block = 0;
+bool magnetic = 0;
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -242,7 +244,7 @@ void read_sensors(){
   // Calculate the distance:
   front_dist = front_ultrasound_duration * 0.034 / 2;
 
-  int hall_sensor = !digitalRead(hallEffectPin);
+  hall_sensor = !digitalRead(hallEffectPin);
 
 
   unsigned long timeElapsed = millis() - startTime;
@@ -310,8 +312,12 @@ void loop() {
 }
 
 void pick_up(){
+  read_sensors();
+  magnetic = hall_sensor;
 
   int angle = 80;
+
+  
 
   delay(5000);
   for (int i=0;i<=angle;i++){
