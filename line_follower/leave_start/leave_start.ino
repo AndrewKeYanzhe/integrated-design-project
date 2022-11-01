@@ -416,14 +416,14 @@ void follow_line(){
         case 0:
           if (tjunctions_crossed == 1){
             stop_motors(); //debug
-            enter_square();
+            enter_square_on_right();
             
           }
           break;
         case 1:
           if(tjunctions_crossed == 3){
             stop_motors();
-            enter_square();
+            enter_square_on_right();
           }
       }
     }
@@ -540,8 +540,8 @@ void turn_right(){
   turn_right();
 }
 
-void enter_square(){
-  current_state = "entering sqaure";
+void enter_square_on_right(){
+  current_state = "entering sqaure on right";
   
   //turn right
   set_motor_speed('L','F',255);
