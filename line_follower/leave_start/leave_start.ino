@@ -444,7 +444,7 @@ void follow_line(){
 
     delay(100);
 
-    turn_right(); //TODO: uncomment when using current_state
+    turn_left();
     
     
   }
@@ -499,8 +499,8 @@ void stop_motors(){
 
 
 
-void turn_right(){
-  current_state = "turning right";
+void turn_left(){
+  current_state = "turning left";
 
   //loops
   read_sensors();
@@ -524,7 +524,7 @@ void turn_right(){
   }
 
   delay(loop_delay);
-  turn_right();
+  turn_left();
 
 }
 
