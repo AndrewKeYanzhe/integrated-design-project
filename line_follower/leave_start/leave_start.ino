@@ -1,6 +1,6 @@
 // leave initial box and turn right onto white line
 
-bool enable_motors = 0;
+bool enable_motors = 1;
 
 // enable_motors = 0;
 
@@ -21,6 +21,7 @@ Servo right_servo;
 const int hallEffectPin = 8;
 
 bool stopped = 0;
+bool holding_block = 0;
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -308,6 +309,21 @@ void loop() {
 
 }
 
+void pick_up(){
+
+  int angle = 80;
+
+  delay(5000);
+  for (int i=0;i<=angle;i++){
+    left_servo.write(90+i);
+    right_servo.write(90-i);
+    delay(100);
+  }
+  holding_block = 1;
+  delay(9999999999);
+
+}
+
 void follow_line(){
   //loops
 
@@ -323,9 +339,10 @@ void follow_line(){
       begin_stopping = millis();
     }
 
-    if (millis() - begin_stopping >=700){ //700 is good
+    if (millis() - begin_stopping >=750){ //700 is good
       stop_motors();
       stopped = 1;
+      pick_up();      
     }
     
     // delay(800);
