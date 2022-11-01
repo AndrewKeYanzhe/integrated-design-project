@@ -387,11 +387,14 @@ void follow_line(){
         case 0:
           if (tjunctions_crossed == 1){
             stop_motors(); //debug
+            enter_square();
+            
           }
           break;
         case 1:
           if(tjunctions_crossed == 3){
             stop_motors();
+            entersquare();
           }
       }
     }
@@ -495,4 +498,17 @@ void turn_right(){
 
 }
 
+void enter_sqaure(){
+  current_state = "entering sqaure";
+  set_motor_speed('L','F',255);
+  set_motor_speed('R','F',default_speed*0);
+
+  delay(1000);
+  set_motor_speed('L','F',255);
+  set_motor_speed('R','F',255);
+
+  delay(1000);
+  stop_motors();
+  delay(9999999); //debug
+}
 
