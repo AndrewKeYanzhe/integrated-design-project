@@ -472,12 +472,12 @@ void follow_line(){
 
   //course correction in tunnel (all sensors read black)
   else if (far_left_white + left_white + right_white + far_right_white ==0){
-    if (left_dist >=0 && left_dist <6){
+    if (left_dist >=0 && left_dist <7){
       Serial.print("    slight rightward correction");
       set_motor_speed('L','F',default_speed);
       set_motor_speed('R','F',default_speed*0.8);    
     }
-    else if (left_dist <= 15 && left_dist>6){
+    else if (left_dist <= 15 && left_dist>7){
       Serial.print("    slight leftward correction");
       set_motor_speed('L','F',default_speed*0.8);
       set_motor_speed('R','F',default_speed);    
