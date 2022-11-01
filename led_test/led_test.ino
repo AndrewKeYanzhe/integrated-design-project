@@ -1,7 +1,7 @@
 
-int green_pin = 0; //analog
-int red_pin = 1;
-int amber_pin = 2;//amber is 12, digital
+int green_pin = 11; //analog
+int red_pin = 12;
+int amber_pin = 13;//amber is 12, digital
 
 void setup() {
   Serial.begin(9600);  
@@ -13,15 +13,15 @@ void setup() {
   pinMode(red_pin, OUTPUT);
   pinMode(amber_pin,OUTPUT);
 
-  analogWrite(green_pin, 0);
-  analogWrite(red_pin, 0);
-  analogWrite(amber_pin,0);
+  // analogWrite(green_pin, 0);
+  // analogWrite(red_pin, 0);
+  // analogWrite(amber_pin,0);
 
-  delay(9999999999);
+  // delay(9999999999);
 
-  analogWrite(green_pin, 255);
-  analogWrite(red_pin, 255);
-  analogWrite(amber_pin,255);
+  digitalWrite(green_pin, 1);
+  digitalWrite(red_pin, 1);
+  digitalWrite(amber_pin,1);
 
 }
 
