@@ -24,6 +24,8 @@ int hall_sensor = NULL;
 bool stopped = 0;
 bool holding_block = 0;
 bool magnetic = 0;
+bool white_square_on_left = 0;
+bool white_square_on_right = 0;
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -57,8 +59,9 @@ bool sensor_2;
 bool sensor_3;
 bool sensor_4;
 
-int tjunctions_crossed = 0;
-unsigned long tjunction_timestamp = NULL;
+int right_tjunctions_crossed = 0;
+unsigned long right_tjunction_timestamp = NULL;
+
 
 bool far_left_white = false;
 bool left_white = false;
@@ -284,8 +287,8 @@ void read_sensors(){
   Serial.print("    time: ");
   Serial.print(timeElapsed/1000);
 
-  Serial.print("    tjunc: ");
-  Serial.print(tjunctions_crossed);
+  Serial.print("    right_tjunc: ");
+  Serial.print(right_tjunctions_crossed);
 
   //state
   Serial.print("    state: ");
@@ -342,7 +345,7 @@ void pick_up(){
   //   delay(100);
   // }
   holding_block = 1;
-  tjunctions_crossed = 0;
+  right_tjunctions_crossed = 0;
   // delay(9999999999); //debug
 
   delay(1000);
@@ -393,39 +396,70 @@ void follow_line(){
     follow_line();
   }
 
+  // finding left T junction
+  if((left_white || right_white) && far_left_white){
+    if(white_square_on_left){
+      enter_square_on_left();
+      delay(999999999999);
+    }
+  }
 
   // finding right T junction
   if((left_white || right_white) && far_right_white){
-    if (tjunction_timestamp == NULL){
-      tjunction_timestamp = millis();
-      tjunctions_crossed = tjunctions_crossed + 1;
+    if (right_tjunction_timestamp == NULL){
+      right_tjunction_timestamp = millis();
+      right_tjunctions_crossed = right_tjunctions_crossed + 1;
     }
-    else if (millis()-tjunction_timestamp > 1000){
-      tjunctions_crossed = tjunctions_crossed + 1;
-      tjunction_timestamp = millis();
+    else if (millis()-right_tjunction_timestamp > 1000){
+      right_tjunctions_crossed = right_tjunctions_crossed + 1;
+      right_tjunction_timestamp = millis();
     }
 
-    //magnetic return to red sqaure, tjunc = 3
+    //right T junction found
+
+    if (white_square_on_right){
+      enter_square_on_right();
+      delay(99999999);
+    }
+
+
+
+    //magnetic return to red sqaure, right_tjunc = 3
     // holding_block = 1; //debug
     // magnetic = 0; //debug
 
     if (holding_block){
-
-      
       switch (magnetic){
         case 0:
-          if (tjunctions_crossed == 1){
+          //green box
+          if (right_tjunctions_crossed == 1){
             stop_motors(); //debug
             enter_square_on_right();
-            delay(99999999999);
-            
+
+            delay(2000);
+
+            //go backward
+            set_motor_speed('L','B',255);
+            set_motor_speed('R','B',255);
+            delay(1200);
+
+            white_square_on_right = 1;
+            turn_left();          
           }
           break;
         case 1:
-          if(tjunctions_crossed == 3){
+        //red box
+          if(right_tjunctions_crossed == 3){
             stop_motors();
             enter_square_on_right();
-            delay(999999999);
+            delay(2000);
+            //go backward
+            set_motor_speed('L','B',255);
+            set_motor_speed('R','B',255);
+            delay(1200);
+
+            white_square_on_left = 1;
+            turn_right();
           }
       }
     }
