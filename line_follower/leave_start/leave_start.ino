@@ -66,7 +66,7 @@ bool far_right_white = false;
 bool on_line = false;
 
 
-String current_state_v2 = "initial box";
+String current_state = "initial box";
 // int right_turns = 0;
 
 int left_motorSpeed = 0;
@@ -283,7 +283,7 @@ void read_sensors(){
 
   //state
   Serial.print("    state: ");
-  Serial.print(current_state_v2);  
+  Serial.print(current_state);  
   
   
 
@@ -299,7 +299,7 @@ void loop() {
   if (left_white || right_white){
     Serial.println("found line");
     on_line = true;
-    current_state_v2 = "line following";
+    current_state = "line following";
     delay(100);
     follow_line();
   }
@@ -411,7 +411,7 @@ void follow_line(){
 
     delay(100);
 
-    turn_right(); //TODO: uncomment when using current_state_V2
+    turn_right(); //TODO: uncomment when using current_state
     
     
   }
@@ -467,7 +467,7 @@ void stop_motors(){
 
 
 void turn_right(){
-  current_state_v2 = "turning right";
+  current_state = "turning right";
 
   //loops
   read_sensors();
@@ -477,7 +477,7 @@ void turn_right(){
 
   if (left_white || right_white){
     Serial.println("found line");
-    current_state_v2 = "line following";
+    current_state = "line following";
 
 
     set_motor_speed('L','F',default_speed*0.8);
@@ -494,3 +494,5 @@ void turn_right(){
   turn_right();
 
 }
+
+
