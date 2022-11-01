@@ -417,6 +417,7 @@ void follow_line(){
           if (tjunctions_crossed == 1){
             stop_motors(); //debug
             enter_square_on_right();
+            delay(99999999999);
             
           }
           break;
@@ -424,6 +425,7 @@ void follow_line(){
           if(tjunctions_crossed == 3){
             stop_motors();
             enter_square_on_right();
+            delay(999999999);
           }
       }
     }
@@ -554,7 +556,6 @@ void enter_square_on_right(){
   delay(1200);
 
   stop_motors();
-  delay(9999999); //debug
 }
 
 
