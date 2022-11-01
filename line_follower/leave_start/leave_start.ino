@@ -326,7 +326,14 @@ void pick_up(){
     delay(100);
   }
   holding_block = 1;
-  delay(9999999999);
+  tjunctions_crossed = 0;
+  delay(9999999999); //debug
+
+  delay(1000);
+  set_motor_speed('L','F',default_speed);
+  set_motor_speed('R','F',default_speed);
+  follow_line();
+
 
 }
 
