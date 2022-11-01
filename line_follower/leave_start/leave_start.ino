@@ -514,9 +514,30 @@ void turn_left(){
     follow_line();
     return;
   }
-  
+
   delay(loop_delay);
   turn_left();
+}
+
+void turn_right(){
+  current_state = "turning right";
+
+  read_sensors();
+  set_motor_speed('L','F',255);
+  set_motor_speed('R','F',default_speed*0.3);
+
+  if (left_white || right_white){
+    Serial.println("found line");
+    set_motor_speed('L','F',default_speed*0.8);
+    set_motor_speed('R','F',default_speed);
+    delay(500);
+
+    follow_line();
+    return;
+  }
+  
+  delay(loop_delay);
+  turn_right();
 }
 
 void enter_square(){
