@@ -37,7 +37,7 @@ int front_dist;
 
 //--variables to set--------------------------
 
-int amber_pin = -1;
+int amber_pin = 13;
 int green_pin = 12;
 int red_pin = 11; 
 
