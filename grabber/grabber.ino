@@ -58,6 +58,8 @@ void setup() {
 
   int angle = 80;
 
+  // delay(999999);
+
 
 
   for (int i=0;i<=angle;i++){
@@ -78,6 +80,8 @@ void setup() {
 
   left_servo.write(90);
   right_servo.write(90);
+
+  delay(999999);
 
   
 
