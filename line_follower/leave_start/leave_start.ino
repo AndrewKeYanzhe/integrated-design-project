@@ -2,6 +2,8 @@
 
 bool enable_motors = 1;
 
+//Wednesday
+
 #include <Adafruit_MotorShield.h>
 #include <Servo.h>
 
@@ -179,11 +181,11 @@ void setup() {
   pinMode(red_pin, OUTPUT);
   pinMode (amber_pin, OUTPUT);
 
-  //start button //change to analog 5
-  while (analogRead(5) <200){
-    delay(1);
-    Serial.println("waiting for start button press");
-  }
+  // //start button //change to analog 5
+  // while (analogRead(5) <200){
+  //   delay(1);
+  //   Serial.println("waiting for start button press");
+  // }
 
   //driving position
   left_servo.write(0);
@@ -338,11 +340,11 @@ void pick_up(){
 
   left_servo.write(90);
   right_servo.write(90);
-  // for (int i=0;i<=angle;i++){
-  //   left_servo.write(90+i);
-  //   right_servo.write(90-i);
-  //   delay(100);
-  // }
+  for (int i=0;i<=angle;i++){
+    left_servo.write(90+i);
+    right_servo.write(90-i);
+    delay(100);
+  }
   holding_block = 1;
   right_tjunctions_crossed = 0;
   // delay(9999999999); //debug
@@ -380,6 +382,9 @@ void follow_line(){
     if (millis() - begin_stopping >=800){ //700 is good
       stop_motors();
       stopped = 1;
+
+      
+
       pick_up();      
     }
     
