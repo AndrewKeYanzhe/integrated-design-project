@@ -397,7 +397,7 @@ void follow_line(){
     }
 
     //decellerate
-    if (millis() - begin_stopping >=850){ //700 is good
+    if (millis() - begin_stopping >=870){ //700 is good
       stop_motors();
       stopped = 1;
       
