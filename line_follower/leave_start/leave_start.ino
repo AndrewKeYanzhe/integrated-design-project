@@ -434,16 +434,10 @@ void follow_line(){
     }
 
     //right T junction found
-
-
-
     if (white_square_on_right){
       enter_square_on_right();
       delay(99999999);
     }
-
-
-
     //magnetic return to red sqaure, right_tjunc = 3
     // holding_block = 1; //debug
     // magnetic = 0; //debug
@@ -497,8 +491,16 @@ void follow_line(){
             set_motor_speed('R','B',255);
             delay(4000);
 
+            //forward right turn
+            set_motor_speed('R','F',255*0.3);
+            set_motor_speed('L','F',255);
+            delay(2000);
+
+            //forward
+            set_motor_speed('L','F',255);
+            set_motor_speed('R','F',255);
             white_square_on_left = 1;
-            turn_right();
+            follow_line();
           }
       }
     }
@@ -621,12 +623,12 @@ void enter_square_on_right(){
   //turn right
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',default_speed*0);
-  delay(4000);
+  delay(4500);
 
   //go forward
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',255);
-  delay(1200);
+  delay(1500);
 
   stop_motors();
 }
@@ -637,12 +639,12 @@ void enter_square_on_left(){
   //turn right
   set_motor_speed('R','F',255);
   set_motor_speed('L','F',default_speed*0);
-  delay(4000);
+  delay(4500);
 
   //go forward
   set_motor_speed('R','F',255);
   set_motor_speed('L','F',255);
-  delay(1200);
+  delay(1500);
 
   stop_motors();
 }
