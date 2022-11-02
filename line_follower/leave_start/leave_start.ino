@@ -458,7 +458,7 @@ void follow_line(){
             //go backward
             set_motor_speed('L','B',255);
             set_motor_speed('R','B',255);
-            delay(4000);
+            delay(7000);
 
             //forward left turn
             set_motor_speed('L','F',255*0.3);
@@ -489,7 +489,7 @@ void follow_line(){
             //go backward
             set_motor_speed('L','B',255);
             set_motor_speed('R','B',255);
-            delay(4000);
+            delay(7000);
 
             //forward right turn
             set_motor_speed('R','F',255*0.3);
@@ -628,7 +628,7 @@ void enter_square_on_right(){
   //go forward
   set_motor_speed('L','F',255);
   set_motor_speed('R','F',255);
-  delay(1500);
+  delay(1000);
 
   stop_motors();
 }
@@ -644,7 +644,7 @@ void enter_square_on_left(){
   //go forward
   set_motor_speed('R','F',255);
   set_motor_speed('L','F',255);
-  delay(1500);
+  delay(1000);
 
   stop_motors();
 }
