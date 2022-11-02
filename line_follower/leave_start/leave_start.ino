@@ -116,10 +116,10 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
         left_motorSpeed = new_speed;
         switch(new_direction){
           case 'F':
-            left_motor->run(FORWARD);      
+            left_motor->run(BACKWARD);      
             break;
           case 'B':
-            left_motor->run(BACKWARD);
+            left_motor->run(FORWARD);
             break;
         }
         left_motorDirection = new_direction;
@@ -129,10 +129,10 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
         right_motorSpeed = new_speed;
         switch(new_direction){
           case 'F':
-            right_motor->run(FORWARD);
+            right_motor->run(BACKWARD);
             break;
           case 'B':
-            right_motor->run(BACKWARD);
+            right_motor->run(FORWARD);
             break;
         
         }
