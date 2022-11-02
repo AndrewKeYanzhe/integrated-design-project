@@ -188,7 +188,8 @@ void setup() {
   //start button //change to analog 5
   while (analogRead(0) <500){
     delay(1);
-    Serial.println("waiting for start button press");
+    // Serial.println("waiting for start button press");
+    read_sensors();
   }
 
   //driving position
