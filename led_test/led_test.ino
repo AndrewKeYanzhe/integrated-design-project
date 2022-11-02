@@ -5,7 +5,7 @@ int amber_pin = 13;//amber is not working
 
 void setup() {
   Serial.begin(9600);  
-
+  Serial.println("led test");
 
 
   //LEDs
@@ -19,8 +19,8 @@ void setup() {
 
   // delay(9999999999);
 
-  digitalWrite(green_pin, 1);
-  digitalWrite(red_pin, 1);
+  digitalWrite(green_pin, 0);
+  digitalWrite(red_pin, 0);
   digitalWrite(amber_pin,0);
 
   // digitalWrite(green_pin, 1);
