@@ -1,7 +1,7 @@
 // leave initial box and turn right onto white line
 
 bool enable_motors = 1;
-bool debug_return = 1;
+bool debug_return = 0;
 
 //Wednesday
 
@@ -363,9 +363,9 @@ void pick_up(){
 
   delay(1000);
   set_motor_speed('L','F',255);
-  set_motor_speed('R','F',default_speed*0);
+  set_motor_speed('R','B',255);
 
-  delay(12000);
+  delay(4000);
 
   stopped = 0;
   set_motor_speed('L','F',default_speed);
