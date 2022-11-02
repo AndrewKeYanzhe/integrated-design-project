@@ -1,7 +1,7 @@
 // leave initial box and turn right onto white line
 
 bool enable_motors = 1;
-bool debug_return = 0;
+bool debug_return = 1;
 
 //Wednesday
 
@@ -447,6 +447,11 @@ void follow_line(){
     //right T junction found
     if (white_square_on_right){
       enter_square_on_right();
+
+      set_motor_speed('L','F',255);
+      set_motor_speed('R','F',255);  
+      delay(500);
+      stop_motors();
       delay(99999999);
     }
     //magnetic return to red sqaure, right_tjunc = 3
@@ -458,7 +463,7 @@ void follow_line(){
         case 0:
           //green box
           if (right_tjunctions_crossed == 1){
-            stop_motors(); //debug
+            // stop_motors(); //debug
             enter_square_on_right();
 
             left_servo.write(90);
@@ -469,12 +474,12 @@ void follow_line(){
             //go backward
             set_motor_speed('L','B',255);
             set_motor_speed('R','B',255);
-            delay(7000);
+            delay(5000);
 
             //forward left turn
             set_motor_speed('L','F',255*0.3);
             set_motor_speed('R','F',255);
-            delay(2000);
+            delay(4000);
 
             //forward
             set_motor_speed('L','F',255);
