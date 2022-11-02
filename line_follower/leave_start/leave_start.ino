@@ -3,7 +3,7 @@
 //release 1
 
 bool enable_motors = 1;
-bool debug_return = 1;
+bool debug_return = 0;
 
 //Wednesday
 
@@ -399,7 +399,7 @@ void follow_line(){
     }
 
     //decellerate
-    if (millis() - begin_stopping >=870){ //700 is good
+    if (millis() - begin_stopping >=830){ //870 is good
       stop_motors();
       stopped = 1;
       
