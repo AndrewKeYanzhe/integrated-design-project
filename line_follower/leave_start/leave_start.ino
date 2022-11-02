@@ -384,12 +384,18 @@ void follow_line(){
     set_motor_speed('R','F',default_speed);
 
     if (begin_stopping == NULL){
+      
+      stop_motors();
+      delay(1000);
+      set_motor_speed('L','F',default_speed);
+      set_motor_speed('R','F',default_speed);
       begin_stopping = millis();
     }
 
     if (millis() - begin_stopping >=800){ //700 is good
       stop_motors();
       stopped = 1;
+      
 
       
 
