@@ -181,6 +181,9 @@ void setup() {
   pinMode(green_pin, OUTPUT);
   pinMode(red_pin, OUTPUT);
   pinMode (amber_pin, OUTPUT);
+  digitalWrite(green_pin, 0);
+  digitalWrite(red_pin, 0);
+  digitalWrite(amber_pin, 0);
 
   //start button //change to analog 5
   while (analogRead(0) <500){
