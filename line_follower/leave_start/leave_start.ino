@@ -330,7 +330,7 @@ void loop() {
 
 void pick_up(){
   read_sensors();
-  magnetic = hall_sensor;
+  magnetic = magnetic + hall_sensor;
 
   if (magnetic){
     digitalWrite(red_pin, 1);
@@ -419,6 +419,8 @@ void follow_line(){
   if (debug_return){
     holding_block = 1; //debug turn off
   }
+
+
   //dropping block
   // finding right T junction
   if((left_white || right_white) && far_right_white){
@@ -464,17 +466,20 @@ void follow_line(){
             set_motor_speed('R','B',255);
             delay(4000);
 
+            //forward left turn
             set_motor_speed('L','F',255*0.3);
             set_motor_speed('R','F',255);
             delay(2000);
 
+            //forward
             set_motor_speed('L','F',255);
             set_motor_speed('R','F',255);
+            white_square_on_right = 1;
             follow_line();
 
             delay(99999999);
 
-            white_square_on_right = 1;
+            
             turn_left();          
           }
           break;
