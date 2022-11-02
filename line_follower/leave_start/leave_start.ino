@@ -1,5 +1,7 @@
 // leave initial box and turn right onto white line
 
+//release 1
+
 bool enable_motors = 1;
 bool debug_return = 0;
 
@@ -479,7 +481,7 @@ void follow_line(){
             //forward left turn
             set_motor_speed('L','F',255*0.3);
             set_motor_speed('R','F',255);
-            delay(4000);
+            delay(5000);
 
             //forward
             set_motor_speed('L','F',255);
