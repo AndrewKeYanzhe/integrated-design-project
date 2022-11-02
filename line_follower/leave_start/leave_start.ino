@@ -179,8 +179,8 @@ void setup() {
   pinMode(red_pin, OUTPUT);
   pinMode (amber_pin, OUTPUT);
 
-  //start button
-  while (digitalRead(13) == LOW){
+  //start button //change to analog 5
+  while (analogRead(5) <200){
     delay(1);
     Serial.println("waiting for start button press");
   }
