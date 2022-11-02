@@ -181,11 +181,11 @@ void setup() {
   pinMode(red_pin, OUTPUT);
   pinMode (amber_pin, OUTPUT);
 
-  // //start button //change to analog 5
-  // while (analogRead(5) <200){
-  //   delay(1);
-  //   Serial.println("waiting for start button press");
-  // }
+  //start button //change to analog 5
+  while (analogRead(0) <500){
+    delay(1);
+    Serial.println("waiting for start button press");
+  }
 
   //driving position
   left_servo.write(0);
@@ -208,6 +208,7 @@ void(* resetFunc) (void) = 0;//declare reset function at address 0
 
 
 void read_sensors(){
+  //print outputs
   sensor_1 = !(digitalRead(0));
   sensor_2 = !(digitalRead(1));
   sensor_3 = !(digitalRead(2));
@@ -216,6 +217,10 @@ void read_sensors(){
   // if (digitalRead(12) == HIGH){
     // resetFunc();
   // }
+  if (analogRead(0)>500 && millis() - startTime > 1000){
+    delay(500);
+    resetFunc();
+  }
 
   if (left_motorSpeed + right_motorSpeed > 0){
     digitalWrite(amber_pin,((millis()-startTime)/250)%2);
@@ -294,6 +299,8 @@ void read_sensors(){
   //state
   Serial.print("    state: ");
   Serial.print(current_state);  
+
+  // Serial.print(analogRead(0));
   
   
 
