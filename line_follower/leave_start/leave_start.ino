@@ -2,8 +2,6 @@
 
 bool enable_motors = 1;
 
-// enable_motors = 0;
-
 #include <Adafruit_MotorShield.h>
 #include <Servo.h>
 
@@ -13,6 +11,7 @@ bool enable_motors = 1;
 #define trigPin_front 5
 #define echoPin_front 4
 
+//grabbers
 Servo left_servo;
 Servo right_servo;
 
@@ -180,11 +179,11 @@ void setup() {
   pinMode(red_pin, OUTPUT);
   pinMode (amber_pin, OUTPUT);
 
-
-  // while (digitalRead(13) == LOW){
-  //   delay(1);
-  //   Serial.println("waiting for start button press");
-  // }
+  //start button
+  while (digitalRead(13) == LOW){
+    delay(1);
+    Serial.println("waiting for start button press");
+  }
 
   //driving position
   left_servo.write(0);
