@@ -1,6 +1,7 @@
 // leave initial box and turn right onto white line
 
 bool enable_motors = 1;
+bool debug_return = 0;
 
 //Wednesday
 
@@ -415,6 +416,10 @@ void follow_line(){
     }
   }
 
+  if (debug_return){
+    holding_block = 1; //debug turn off
+  }
+  //dropping block
   // finding right T junction
   if((left_white || right_white) && far_right_white){
     if (right_tjunction_timestamp == NULL){
@@ -427,6 +432,8 @@ void follow_line(){
     }
 
     //right T junction found
+
+
 
     if (white_square_on_right){
       enter_square_on_right();
@@ -447,12 +454,25 @@ void follow_line(){
             stop_motors(); //debug
             enter_square_on_right();
 
+            left_servo.write(90);
+            right_servo.write(90);
+
             delay(2000);
 
             //go backward
             set_motor_speed('L','B',255);
             set_motor_speed('R','B',255);
-            delay(1200);
+            delay(4000);
+
+            set_motor_speed('L','F',255*0.3);
+            set_motor_speed('R','F',255);
+            delay(2000);
+
+            set_motor_speed('L','F',255);
+            set_motor_speed('R','F',255);
+            follow_line();
+
+            delay(99999999);
 
             white_square_on_right = 1;
             turn_left();          
@@ -463,11 +483,14 @@ void follow_line(){
           if(right_tjunctions_crossed == 3){
             stop_motors();
             enter_square_on_right();
+
+            left_servo.write(90);
+            right_servo.write(90);            
             delay(2000);
             //go backward
             set_motor_speed('L','B',255);
             set_motor_speed('R','B',255);
-            delay(1200);
+            delay(4000);
 
             white_square_on_left = 1;
             turn_right();
