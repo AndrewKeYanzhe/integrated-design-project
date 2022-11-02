@@ -476,7 +476,7 @@ void follow_line(){
             //go backward
             set_motor_speed('L','B',255);
             set_motor_speed('R','B',255);
-            delay(7000);
+            delay(6000);
 
             //forward left turn
             set_motor_speed('L','F',255*0.3);
