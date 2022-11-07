@@ -1,11 +1,5 @@
-// leave initial box and turn right onto white line
-
-//release 1
-
 bool enable_motors = 1;
 bool debug_return = 0;
-
-//Wednesday
 
 #include <Adafruit_MotorShield.h>
 #include <Servo.h>
@@ -19,8 +13,6 @@ bool debug_return = 0;
 //grabbers
 Servo left_servo;
 Servo right_servo;
-
-
 
 const int hallEffectPin = 8;
 int hall_sensor = NULL;
@@ -75,7 +67,6 @@ bool far_right_white = false;
 
 
 String current_state = "initial box";
-// int right_turns = 0;
 
 int left_motorSpeed = 0;
 char left_motorDirection = NULL;
@@ -148,8 +139,6 @@ void set_motor_speed(char motor_label, char new_direction, int new_speed) {
 }
 
 void setup() {
-  // put your setup code here, to run once:
-
   // Define inputs and outputs for ultrasound:
   pinMode(trigPin_left, OUTPUT);
   pinMode(echoPin_left, INPUT);
@@ -169,14 +158,6 @@ void setup() {
   }
   Serial.println("Motor Shield found.");
 
-  // while (true){
-    
-  //   if (digitalRead(13) == HIGH){
-  //     delay(100);
-  //     break;
-  //   }
-  // }
-
   left_servo.attach(10);
   right_servo.attach(9);
 
@@ -187,17 +168,16 @@ void setup() {
   digitalWrite(red_pin, 0);
   digitalWrite(amber_pin, 0);
 
-  //start button //change to analog 5
+  //start button
   while (analogRead(0) <500){
     delay(1);
     // Serial.println("waiting for start button press");
     read_sensors();
   }
 
-  //driving position
+  //rotate grabbers up for greater clearance when driving 
   left_servo.write(0);
   right_servo.write(180); 
-
 
 
   set_motor_speed('L','F',default_speed);
@@ -221,14 +201,13 @@ void read_sensors(){
   sensor_3 = !(digitalRead(2));
   sensor_4 = !(digitalRead(3));
 
-  // if (digitalRead(12) == HIGH){
-    // resetFunc();
-  // }
+  //button press reboots robot
   if (analogRead(0)>500 && millis() - startTime > 1000){
     delay(500);
     resetFunc();
   }
 
+  //blinking amber pin
   if (left_motorSpeed + right_motorSpeed > 0){
     digitalWrite(amber_pin,((millis()-startTime)/250)%2);
   }
@@ -272,6 +251,8 @@ void read_sensors(){
   unsigned long timeElapsed = millis() - startTime;
   Serial.println(" ");
 
+  //print sensor readings
+
   //line sensor
   Serial.print("white: ");
   Serial.print(far_left_white);
@@ -307,19 +288,12 @@ void read_sensors(){
   Serial.print("    state: ");
   Serial.print(current_state);  
 
-  // Serial.print(analogRead(0));
-  
-  
-
 }
 
 void loop() {
-  // Serial.println("running loop");
-  // put your main code here, to run repeatedly:
-
   read_sensors();
   
-
+  //detect border of initial white sqaure
   if (left_white || right_white){
     Serial.println("found line");
     current_state = "line following";
@@ -328,9 +302,6 @@ void loop() {
   }
 
   delay(1);
-
-
-  
 
 }
 
@@ -352,6 +323,7 @@ void pick_up(){
 
   delay(5000);
 
+  //rotate servos to pick up cube
   left_servo.write(90);
   right_servo.write(90);
   for (int i=0;i<=angle;i++){
@@ -359,10 +331,11 @@ void pick_up(){
     right_servo.write(90-i);
     delay(100);
   }
+
   holding_block = 1;
   right_tjunctions_crossed = 0;
-  // delay(9999999999); //debug
 
+  //turn 180 degrees
   delay(1000);
   set_motor_speed('L','F',255);
   set_motor_speed('R','B',255);
@@ -383,7 +356,7 @@ void follow_line(){
 
   read_sensors();
 
-  //stop in front of block. robot is still able to go up the ramp
+  //stop in front of block based on ultrasound distance
   //distance of 9 is 5cm. distance needs to be <=2 to detect magnetism
   if (front_dist <=9 and stopped == 0 && holding_block ==0){
     set_motor_speed('L','F',default_speed);
@@ -409,33 +382,27 @@ void follow_line(){
       pick_up();      
     }
     
-    // delay(800);
-    // stop_motors();
-    // stopped = 1;
-    
-    // delay(99999999);    
-
   }
 
   if (stopped){
     follow_line();
   }
 
-  // finding left T junction
+  // return home: go from red sqaure to white sqaure by finding T junction on the left
   if((left_white || right_white) && far_left_white){
     if(white_square_on_left){
       enter_square_on_left();
-      delay(999999999999);
+      delay(999999999999); //final position
     }
   }
 
+  //for debugging: assume blocked is always picked up, for testing robot return
   if (debug_return){
-    holding_block = 1; //debug turn off
+    holding_block = 1; 
   }
 
 
-  //dropping block
-  // finding right T junction
+  //find T junction on the right
   if((left_white || right_white) && far_right_white){
     if (right_tjunction_timestamp == NULL){
       right_tjunction_timestamp = millis();
@@ -446,7 +413,7 @@ void follow_line(){
       right_tjunction_timestamp = millis();
     }
 
-    //right T junction found
+    // return home: go from green sqaure to white sqaure by finding T junction on the right
     if (white_square_on_right){
       enter_square_on_right();
 
@@ -456,6 +423,9 @@ void follow_line(){
       stop_motors();
       delay(99999999);
     }
+
+
+    //drop cube
     //magnetic return to red sqaure, right_tjunc = 3
     // holding_block = 1; //debug
     // magnetic = 0; //debug
@@ -468,6 +438,7 @@ void follow_line(){
             // stop_motors(); //debug
             enter_square_on_right();
 
+            //drop cube
             left_servo.write(90);
             right_servo.write(90);
 
@@ -478,21 +449,16 @@ void follow_line(){
             set_motor_speed('R','B',255);
             delay(6000);
 
-            //forward left turn
+            //go forward and turn left
             set_motor_speed('L','F',255*0.3);
             set_motor_speed('R','F',255);
             delay(3000);
 
-            //forward
+            //go forward
             set_motor_speed('L','F',255);
             set_motor_speed('R','F',255);
             white_square_on_right = 1;
-            follow_line();
-
-            delay(99999999);
-
-            
-            turn_left();          
+            follow_line();       
           }
           break;
         case 1:
@@ -501,20 +467,23 @@ void follow_line(){
             stop_motors();
             enter_square_on_right();
 
+            //drop cube
             left_servo.write(90);
             right_servo.write(90);            
             delay(2000);
+            
             //go backward
             set_motor_speed('L','B',255);
             set_motor_speed('R','B',255);
             delay(7000);
 
-            //forward right turn
+            //go forward turn right
             set_motor_speed('R','F',255*0.3);
             set_motor_speed('L','F',255);
             delay(2000);
 
-            //forward
+            //go forward
+
             set_motor_speed('L','F',255);
             set_motor_speed('R','F',255);
             white_square_on_left = 1;
@@ -538,6 +507,7 @@ void follow_line(){
 
     delay(100);
 
+    //initial left turn after robot has left white square
     turn_left();
     
     
@@ -614,6 +584,7 @@ void turn_left(){
   turn_left();
 }
 
+//unused function, kept for future use
 void turn_right(){
   current_state = "turning right";
 
